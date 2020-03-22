@@ -1,0 +1,64 @@
+{
+  "name": "node-cra-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "client": "cd client && npm run start",
+    "test": "mocha src/**/*.spec.js",
+    "dev": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "build": "cd client && npm install && npm run build",
+    "start": "npm run build && node server.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write --print-width 120",
+      "git add"
+    ],
+    "*.{css,html,json,md}": [
+      "prettier --write --print-width 120",
+      "git add"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jackson-elfers/node-cra-server.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jackson-elfers/node-cra-server/issues"
+  },
+  "homepage": "https://github.com/jackson-elfers/node-cra-server#readme",
+  "devDependencies": {
+    "concurrently": "^5.0.0",
+    "eslint": "^6.5.1",
+    "husky": "^3.0.9",
+    "lint-staged": "^9.4.2",
+    "mocha": "^6.2.2",
+    "nodemon": "^1.19.4",
+    "prettier": "^1.18.2"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.643.0",
+    "axios": "^0.19.2",
+    "bcrypt": "^3.0.7",
+    "body-parser": "^1.19.0",
+    "check-types": "^11.1.2",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-force-https": "^1.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.17.1",
+    "sqlstring": "^2.3.1",
+    "uuid": "^3.4.0"
+  }
+}

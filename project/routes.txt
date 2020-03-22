@@ -1,0 +1,100 @@
+client:
+
+home: /
+inventory: /inventory
+sell: /sell
+wanted: /wanted
+locating: /locating
+shipping: /shipping
+contact: /contact
+item: /item/:url_title
+
+create inventory: /admin/inventory/create
+update inventory: /admin/inventory/update/:_id
+delete inventory: /admin/inventory/delete/:_id
+upload inventory: /admin/inventory/upload/:_id
+
+login: /account/login
+register: /account/register
+update username: /account/update/username
+update password: /account/update/password
+delete account: /account/delete
+
+server:
+
+  user:
+    login: post /user/login
+    register: post /user/register
+    update username: put /user/update/username (secured)
+    update password: put /user/update/password (secured)
+    delete user: delete /user/delete (secured)
+
+  inventory:
+    create: post /inventory/create (secured)
+    readItemType: get /inventory/item_type
+    readYear: get /inventory/year
+    readMake: get /inventory/make
+    readModel:get /inventory/model
+    readSelect: get /inventory/select/:item_type/:year/:make/:model
+    readSingle: get /inventory/item/:url_title
+    update: put /inventory/update/:_id (secured)
+    thumbnail: put /inventory/update/thumbnail/:_id (secured)
+    delete: delete /inventory/delete/:_id (secured)
+    
+  file:
+    create: post /file/create (secured)
+    readByOwnerId: get /file/:owner_id
+    readByFileName: get /file/file_name
+    delete: delete /file/delete/file_name
+
+models:
+
+user:
+  
+create table if not exists user(
+_id binary(16) not null unique,
+created_at datetime not null,
+updated_at datetime not null,
+username varchar(255) not null unique,
+password varchar(255) not null,
+primary key (_id)
+);
+
+inventory:
+
+create table if not exists inventory(
+_id binary(16) not null,
+created_at datetime not null,
+updated_at datetime not null,
+thumbnail text not null,
+item_type varchar(255) not null,
+year int not null,
+make varchar(255) not null,
+model varchar(255) not null,
+title varchar(255) not null,
+url_title varchar(255) not null,
+sold bit not null,
+stock varchar(255) not null,
+vin varchar(255) not null,
+mileage int not null,
+price decimal(15,2) not null,
+description text not null,
+color text not null,
+engine text not null,
+transmission text not null,
+options text not null,
+item_condition text not null,
+primary key (_id)
+);
+
+file:
+
+create table if not exists files(
+_id binary(16) not null,
+owner_id binary(16) not null,
+created_at datetime not null,
+updated_at datetime not null,
+content_type varchar(255) not null,
+file_name varchar(255) not null,
+primary key (_id)
+);

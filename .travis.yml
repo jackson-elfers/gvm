@@ -1,0 +1,5 @@
+language: node_js
+node_js:
+ - "node"
+env:
+ - JWT_SECRET=c54eb34e-457d-42c5-a9fb-b5f677331622 JWT_EXPIRATION=3600
