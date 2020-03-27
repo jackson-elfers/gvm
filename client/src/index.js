@@ -15,9 +15,17 @@ import {
   UpdateUsername,
   UpdatePassword,
   Delete,
-  Dashboard,
-  Categories,
-  Chat,
+  Inventory,
+  Sell,
+  Wanted,
+  Locating,
+  Shipping,
+  Contact,
+  Item,
+  CreateInventory,
+  UpdateInventory,
+  DeleteInventory,
+  UploadInventory,
   NotFound
 } from "./pages";
 import { Status } from "./globals/components";
@@ -39,9 +47,17 @@ const routing = (
           <Route exact path="/account/update/username" component={UpdateUsername} />
           <Route exact path="/account/update/password" component={UpdatePassword} />
           <Route exact path="/account/delete" component={Delete} />
-          <Route exact path="/taki/dashboard" component={Dashboard} />
-          <Route exact path="/taki/categories" component={Categories} />
-          <Route exact path="/taki/chat/:chat_id" component={Chat} />
+          <Route exact path="/inventory" component={Inventory} />
+          <Route exact path="/sell" component={Sell} />
+          <Route exact path="/wanted" component={Wanted} />
+          <Route exact path="/locating" component={Locating} />
+          <Route exact path="/shipping" component={shipping} />
+          <Route exact path="/contact" component={Contact} />
+          <Route exact path="/item/:url_title" component={Item} />
+          <Route exact path="/admin/inventory/create" component={CreateInventory} />
+          <Route exact path="/admin/inventory/update" component={UpdateInventory} />
+          <Route exact path="/admin/inventory/delete" component={DeleteInventory} />
+          <Route exact path="/admin/inventory/upload" component={UploadInventory} />
           <Route component={NotFound} />
         </Switch>
       </div>
