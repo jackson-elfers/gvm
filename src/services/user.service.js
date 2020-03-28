@@ -1,4 +1,4 @@
-export default class Main {
+module.exports = class {
   constructor(props) {
     this.method = props.method;
   }
@@ -94,4 +94,4 @@ export default class Main {
     this.method.check.assert(this.method.check.string(data._id), "_id must be of type string");
     await this.method.db.actions.user.delete(data);
   }
-}
+};

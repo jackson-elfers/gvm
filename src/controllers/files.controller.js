@@ -1,4 +1,4 @@
-export default class Main {
+module.exports = class {
   constructor(props) {
     this.method = props.method;
   }
@@ -22,4 +22,4 @@ export default class Main {
     check.assert(check.object(data), "expected object as first argument");
     await this.method.services.files.remove(data);
   }
-}
+};

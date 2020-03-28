@@ -1,6 +1,6 @@
 const User = require("./user.controller");
 const Inventory = require("./inventory.controller");
-const Files = require("./files.contoller");
+const Files = require("./files.controller");
 
 const services = require("../services");
 const check = require("check-types");

@@ -1,19 +1,37 @@
 import React from "react";
-import { Notice } from "../../globals/components";
 import axios from "axios";
+import check from "check-types";
+import { Notice } from "../../globals/components";
 
 class Main extends React.Component {
   async createInventory(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
-    const data = { username: form.username.value, password: form.password.value };
+    const data = {
+      type: form.type.value,
+      make: form.make.value,
+      model: form.model.value,
+      year: form.year.value,
+      stock: form.stock.value,
+      vin: form.vin.value,
+      mileage: form.mileage.value,
+      title: form.title.value,
+      price: Number(form.price.value),
+      description: form.description.value,
+      color: form.color.value,
+      engine: form.engine.value,
+      transmission: form.transmission.value,
+      options: form.options.value,
+      condition: form.condition.value
+    };
+    check.assert(check.number(data.price), "price must be of type number");
     try {
       const response = await axios.post(`${process.env.REACT_APP_API}/inventory/create`, data);
       if (response.data.error) {
         throw new Error(response.data.error.detail);
       }
       await this.props.actions.user.set();
-      this.props.history.push("/taki/dashboard");
+      //this.props.history.push("/taki/dashboard");
     } catch (e) {
       this.props.actions.notice.message(e.message);
     }
