@@ -38,7 +38,7 @@ class Main extends React.Component {
     return (
       <div>
         <Link to="/">
-          <h2>Bontaki</h2>
+          <h2>Giordano's Vintage Motors</h2>
         </Link>
         <div style={{ height: "50px" }}>
           <Nav user={this.props.globals.user} />

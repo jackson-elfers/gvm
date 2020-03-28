@@ -51,7 +51,7 @@ const routing = (
           <Route exact path="/sell" component={Sell} />
           <Route exact path="/wanted" component={Wanted} />
           <Route exact path="/locating" component={Locating} />
-          <Route exact path="/shipping" component={shipping} />
+          <Route exact path="/shipping" component={Shipping} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/item/:url_title" component={Item} />
           <Route exact path="/admin/inventory/create" component={CreateInventory} />
