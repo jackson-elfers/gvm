@@ -55,9 +55,9 @@ const routing = (
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/item/:url_title" component={Item} />
           <Route exact path="/admin/inventory/create" component={CreateInventory} />
-          <Route exact path="/admin/inventory/update" component={UpdateInventory} />
-          <Route exact path="/admin/inventory/delete" component={DeleteInventory} />
-          <Route exact path="/admin/inventory/upload" component={UploadInventory} />
+          <Route exact path="/admin/inventory/update/:_id" component={UpdateInventory} />
+          <Route exact path="/admin/inventory/delete/:_id" component={DeleteInventory} />
+          <Route exact path="/admin/inventory/upload/:_id" component={UploadInventory} />
           <Route component={NotFound} />
         </Switch>
       </div>
