@@ -5,8 +5,8 @@ const check = require("check-types");
 module.exports.create = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
-    await actions.inventory.create(req.body);
-    res.json(utils.api.send(null));
+    const response = await actions.inventory.create(req.body);
+    res.json(utils.api.send({ _id: response.info._id, url_title: response.info.url_title }));
   } catch (e) {
     console.log(e);
     res.json(
@@ -93,10 +93,10 @@ module.exports.readSelect = async function(req, res) {
   }
 };
 
-module.exports.readSingle = async function(req, res) {
+module.exports.readSingleByUrlTitle = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readSingle(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readSingleByUrlTitle(req.params)).results));
   } catch (e) {
     console.log(e);
     res.json(
@@ -108,10 +108,10 @@ module.exports.readSingle = async function(req, res) {
   }
 };
 
-module.exports.readSingle = async function(req, res) {
+module.exports.readSingleById = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readSingle(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readSingleById(req.params)).results));
   } catch (e) {
     console.log(e);
     res.json(

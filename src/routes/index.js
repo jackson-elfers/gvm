@@ -21,10 +21,11 @@ module.exports = function(app) {
   app.get("/inventory/make/:make", utils.asyn.route(inventory.readMake));
   app.get("/inventory/model/:model", utils.asyn.route(inventory.readModel));
   app.get("/inventory/select/:item_type/:year/:make/:model", utils.asyn.route(inventory.readSelect));
-  app.get("/inventory/item/:url_title", utils.asyn.route(inventory.readSingle));
-  app.put("/inventory/update/:_id", utils.asyn.route(utils.jwt.secured), utils.asyn.route(inventory.update));
+  app.get("/inventory/item/title/:url_title", utils.asyn.route(inventory.readSingleByUrlTitle));
+  app.get("/inventory/item/id/:_id", utils.asyn.route(inventory.readSingleById));
+  app.put("/inventory/update", utils.asyn.route(utils.jwt.secured), utils.asyn.route(inventory.update));
   app.put(
-    "/inventory/update/thumbnail/:_id",
+    "/inventory/update/thumbnail",
     utils.asyn.route(utils.jwt.secured),
     utils.asyn.route(inventory.updateThumbnail)
   );

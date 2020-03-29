@@ -10,6 +10,29 @@ const urlify = require("urlify").create({
   trim: true
 });
 
+const columns = `
+bin_to_uuid(_id) _id,
+created_at,
+updated_at,
+thumbnail,
+item_type,
+year,
+make,
+model,
+title,
+sold,
+stock,
+vin,
+mileage,
+price,
+description,
+color,
+engine,
+transmission,
+options,
+item_condition
+`;
+
 module.exports.create = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.thumbnail), "thumbnail must be of type string");
@@ -21,6 +44,7 @@ module.exports.create = async function(data) {
   check.assert(check.boolean(data.sold), "sold must be of type boolean");
   check.assert(check.string(data.stock), "stock must be of type string");
   check.assert(check.string(data.vin), "vin must be of type string");
+  check.assert(check.number(data.mileage), "mileage must be of type number");
   check.assert(check.number(data.price), "price must be of type number");
   check.assert(check.string(data.description), "description must be of type string");
   check.assert(check.string(data.color), "color must be of type string");
@@ -143,7 +167,9 @@ module.exports.readSelect = async function(data) {
   where += data.make !== "" ? ` ${data.make} and ` : ``;
   where += data.model !== "" ? ` ${data.model}` : ``;
   const query = `
-select *
+select
+${columns}
+from inventory
 from inventory
 where ${where}
 `;
@@ -151,15 +177,29 @@ where ${where}
   return await db.query(sqlstring.format(query, params));
 };
 
-module.exports.readSingle = async function(data) {
+module.exports.readSingleByUrlTitle = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.url_title), "url_title must be of type string");
   const query = `
-select *
+select
+${columns}
 from inventory
-where url_title = ?
+where url_title = ?;
 `;
   const params = [data.url_title];
+  return await db.query(sqlstring.format(query, params));
+};
+
+module.exports.readSingleById = async function(data) {
+  check.assert(check.object(data), "expected object as first argument");
+  check.assert(check.string(data._id), "_id must be of type string");
+  const query = `
+select
+${columns}
+from inventory
+where _id = uuid_to_bin(?);
+`;
+  const params = [data._id];
   return await db.query(sqlstring.format(query, params));
 };
 

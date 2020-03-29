@@ -33,9 +33,14 @@ module.exports = class {
     return await this.method.db.actions.inventory.readSelect(data);
   }
 
-  async readSingle(data) {
+  async readSingleByUrlTitle(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    return await this.method.db.actions.inventory.readSingle(data);
+    return await this.method.db.actions.inventory.readSingleByUrlTitle(data);
+  }
+
+  async readSingleById(data) {
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
+    return await this.method.db.actions.inventory.readSingleById(data);
   }
 
   async update(data) {
