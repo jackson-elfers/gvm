@@ -2,7 +2,7 @@ const actions = require("../controllers");
 const utils = require("../utils");
 const check = require("check-types");
 
-module.exports.login = utils.asyn.route(async function(req, res) {
+module.exports.login = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     check.assert(req.body.hasOwnProperty("username"), "missing property 'username'");
@@ -21,7 +21,7 @@ module.exports.login = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
 module.exports.logout = function(req, res) {
   try {
@@ -32,15 +32,15 @@ module.exports.logout = function(req, res) {
   }
 };
 
-module.exports.info = utils.asyn.route(async function(req, res) {
+module.exports.info = async function(req, res) {
   try {
     res.json(utils.api.send(req.user));
   } catch (e) {
     res.json(utils.api.error({ status: 500, detail: "server error, fetching user failed" }));
   }
-});
+};
 
-module.exports.register = utils.asyn.route(async function(req, res) {
+module.exports.register = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     check.assert(req.body.hasOwnProperty("username"), "missing property 'username'");
@@ -56,9 +56,9 @@ module.exports.register = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.updateUsername = utils.asyn.route(async function(req, res) {
+module.exports.updateUsername = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     req.body._id = req.user._id;
@@ -68,9 +68,9 @@ module.exports.updateUsername = utils.asyn.route(async function(req, res) {
   } catch (e) {
     res.json(utils.api.error({ status: 400, detail: "invalid or malformed username" }));
   }
-});
+};
 
-module.exports.updatePassword = utils.asyn.route(async function(req, res) {
+module.exports.updatePassword = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     req.body._id = req.user._id;
@@ -80,9 +80,9 @@ module.exports.updatePassword = utils.asyn.route(async function(req, res) {
   } catch (e) {
     res.json(utils.api.error({ status: 400, detail: "invalid or malformed password" }));
   }
-});
+};
 
-module.exports.remove = utils.asyn.route(async function(req, res) {
+module.exports.remove = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     req.body._id = req.user._id;
@@ -97,4 +97,4 @@ module.exports.remove = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};

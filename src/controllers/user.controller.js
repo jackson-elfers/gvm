@@ -3,33 +3,28 @@ module.exports = class {
     this.method = props.method;
   }
 
-  async Login(data) {
-    method.check.assert(method.check.object(method), "expected object as first argument");
-    method.check.assert(method.check.object(data), "expected object as second argument");
-    return await method.services.user.login(data);
+  async login(data) {
+    this.method.check.assert(this.method.check.object(data), "expected object as second argument");
+    return await this.method.services.user.login(data);
   }
 
-  async Register(data) {
-    method.check.assert(method.check.object(method), "expected object as first argument");
-    method.check.assert(method.check.object(data), "expected object as second argument");
-    return await method.services.user.register(data);
+  async register(data) {
+    this.method.check.assert(this.method.check.object(data), "expected object as second argument");
+    return await this.method.services.user.register(data);
   }
 
   async updateUsername(data) {
-    method.check.assert(method.check.object(method), "expected object as first argument");
-    method.check.assert(method.check.object(data), "expected object as second argument");
-    await method.services.user.updateUsername(data);
+    this.method.check.assert(this.method.check.object(data), "expected object as second argument");
+    await this.method.services.user.updateUsername(data);
   }
 
   async updatePassword(data) {
-    method.check.assert(method.check.object(method), "expected object as first argument");
-    method.check.assert(method.check.object(data), "expected object as second argument");
-    await method.services.user.updatePassword(data);
+    this.method.check.assert(this.method.check.object(data), "expected object as second argument");
+    await this.method.services.user.updatePassword(data);
   }
 
   async remove(data) {
-    method.check.assert(method.check.object(method), "expected object as first argument");
-    method.check.assert(method.check.object(data), "expected object as second argument");
-    await method.services.user.remove(data);
+    this.method.check.assert(this.method.check.object(data), "expected object as second argument");
+    await this.method.services.user.remove(data);
   }
 };

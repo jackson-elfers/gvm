@@ -2,28 +2,33 @@ import React from "react";
 import axios from "axios";
 import check from "check-types";
 import { Notice } from "../../globals/components";
+import connect from "../../connect.js";
 
 class Main extends React.Component {
   async createInventory(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
     const data = {
-      type: form.type.value,
+      thumbnail: "",
+      item_type: form.item_type.value,
       make: form.make.value,
       model: form.model.value,
-      year: form.year.value,
+      year: Number(form.year.value),
       stock: form.stock.value,
       vin: form.vin.value,
-      mileage: form.mileage.value,
+      mileage: Number(form.mileage.value),
       title: form.title.value,
+      sold: form.sold.value === "0" ? false : true,
       price: Number(form.price.value),
       description: form.description.value,
       color: form.color.value,
       engine: form.engine.value,
       transmission: form.transmission.value,
       options: form.options.value,
-      condition: form.condition.value
+      item_condition: form.condition.value
     };
+    check.assert(check.number(data.year), "year must be of type number");
+    check.assert(check.number(data.mileage), "mileage must be of type number");
     check.assert(check.number(data.price), "price must be of type number");
     try {
       const response = await axios.post(`${process.env.REACT_APP_API}/inventory/create`, data);
@@ -44,7 +49,7 @@ class Main extends React.Component {
         <Notice />
         <hr />
         <form id="formOne" onSubmit={this.createInventory.bind(this)}>
-          <input type="text" name="type" placeholder="type" />
+          <input type="text" name="item_type" placeholder="type" />
           <input type="text" name="make" placeholder="make" />
           <input type="text" name="model" placeholder="model" />
           <input type="text" name="year" placeholder="year" />
@@ -52,11 +57,15 @@ class Main extends React.Component {
           <input type="text" name="vin" placeholder="vin" />
           <input type="text" name="mileage" placeholder="mileage" />
           <input type="text" name="title" placeholder="title" />
+          <select name="sold">
+            <option value="0">for sale</option>
+            <option value="1">sold</option>
+          </select>
           <input type="text" name="price" placeholder="price" />
           <textarea name="description" placeholder="description" />
           <textarea name="color" placeholder="color" />
           <textarea name="engine" placeholder="engine" />
-          <textarea name="transmisson" placeholder="transmission" />
+          <textarea name="transmission" placeholder="transmission" />
           <textarea name="options" placeholder="options" />
           <textarea name="condition" placeholder="condition" />
           <input type="submit" value="create" />
@@ -65,4 +74,4 @@ class Main extends React.Component {
     );
   }
 }
-export default Main;
+export default connect(Main);

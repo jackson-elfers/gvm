@@ -2,7 +2,7 @@ const actions = require("../controllers");
 const utils = require("../utils");
 const check = require("check-types");
 
-module.exports.create = utils.asyn.route(async function(req, res) {
+module.exports.create = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     await actions.inventory.create(req.body);
@@ -12,13 +12,13 @@ module.exports.create = utils.asyn.route(async function(req, res) {
     res.json(
       utils.api.error({
         status: 400,
-        detail: "invalid or malformed username or password"
+        detail: "invalid or malformed parameters"
       })
     );
   }
-});
+};
 
-module.exports.readItemType = utils.asyn.route(async function(req, res) {
+module.exports.readItemType = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readItemType(req.params)).results));
@@ -31,9 +31,9 @@ module.exports.readItemType = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readYear = utils.asyn.route(async function(req, res) {
+module.exports.readYear = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readYear(req.params)).results));
@@ -46,9 +46,9 @@ module.exports.readYear = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readMake = utils.asyn.route(async function(req, res) {
+module.exports.readMake = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readMake(req.params)).results));
@@ -61,9 +61,9 @@ module.exports.readMake = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readModel = utils.asyn.route(async function(req, res) {
+module.exports.readModel = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readModel(req.params)).results));
@@ -76,9 +76,9 @@ module.exports.readModel = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readSelect = utils.asyn.route(async function(req, res) {
+module.exports.readSelect = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readSelect(req.params)).results));
@@ -91,9 +91,9 @@ module.exports.readSelect = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readSingle = utils.asyn.route(async function(req, res) {
+module.exports.readSingle = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readSingle(req.params)).results));
@@ -106,9 +106,9 @@ module.exports.readSingle = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.readSingle = utils.asyn.route(async function(req, res) {
+module.exports.readSingle = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     res.json(utils.api.send((await actions.inventory.readSingle(req.params)).results));
@@ -121,9 +121,9 @@ module.exports.readSingle = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.update = utils.asyn.route(async function(req, res) {
+module.exports.update = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     await actions.inventory.update(req.body);
@@ -137,9 +137,9 @@ module.exports.update = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};
 
-module.exports.remove = utils.asyn.route(async function(req, res) {
+module.exports.remove = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
     await actions.inventory.remove(req.body);
@@ -153,4 +153,4 @@ module.exports.remove = utils.asyn.route(async function(req, res) {
       })
     );
   }
-});
+};

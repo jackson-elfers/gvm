@@ -15,7 +15,7 @@ class Main extends React.Component {
         throw new Error(response.data.error.detail);
       }
       await this.props.actions.user.set();
-      this.props.history.push("/taki/dashboard");
+      this.props.history.push("/admin");
     } catch (e) {
       this.props.actions.notice.message(e.message);
     }

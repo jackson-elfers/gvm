@@ -4,7 +4,6 @@ module.exports = class {
   }
 
   async login(data) {
-    this.method.check.assert(this.method.check.object(this.method), "expected object as first argument");
     this.method.check.assert(this.method.check.object(data), "expected object as second argument");
     this.method.check.assert(this.method.check.string(data.username), "username must be of type string");
     this.method.check.assert(this.method.check.string(data.password), "password must be of type string");
@@ -23,7 +22,6 @@ module.exports = class {
   }
 
   async register(data) {
-    this.method.check.assert(this.method.check.object(this.method), "expected object as first argument");
     this.method.check.assert(this.method.check.object(data), "expected object as second argument");
     this.method.check.assert(this.method.check.string(data.username), "username must be of type string");
     this.method.check.assert(
@@ -56,7 +54,6 @@ module.exports = class {
   }
 
   async updateUsername(data) {
-    this.method.check.assert(this.method.check.object(this.method), "expected object as first argument");
     this.method.check.assert(this.method.check.object(data), "expected object as second argument");
     this.method.check.assert(this.method.check.string(data._id), "_id must be of type string");
     this.method.check.assert(this.method.check.string(data.username), "username must be of type string");
@@ -72,7 +69,6 @@ module.exports = class {
   }
 
   async updatePassword(data) {
-    this.method.check.assert(this.method.check.object(this.method), "expected object as first argument");
     this.method.check.assert(this.method.check.object(data), "expected object as second argument");
     this.method.check.assert(this.method.check.string(data._id), "_id must be of type string");
     this.method.check.assert(this.method.check.string(data.password), "password must be of type string");
@@ -89,7 +85,6 @@ module.exports = class {
   }
 
   async remove(data) {
-    this.method.check.assert(this.method.check.object(this.method), "expected object as first argument");
     this.method.check.assert(this.method.check.object(data), "expected object as second argument");
     this.method.check.assert(this.method.check.string(data._id), "_id must be of type string");
     await this.method.db.actions.user.delete(data);

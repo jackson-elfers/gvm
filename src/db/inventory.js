@@ -2,6 +2,13 @@ const db = require("./index");
 const uuidv1 = require("uuid/v1");
 const sqlstring = require("sqlstring");
 const check = require("check-types");
+const urlify = require("urlify").create({
+  addEToUmlauts: true,
+  szToSs: true,
+  spaces: "_",
+  nonPrintable: "_",
+  trim: true
+});
 
 module.exports.create = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
@@ -20,6 +27,7 @@ module.exports.create = async function(data) {
   check.assert(check.string(data.engine), "engine must be of type string");
   check.assert(check.string(data.transmission), "transmission must be of type string");
   check.assert(check.string(data.options), "options must be of type string");
+  check.assert(check.string(data.item_condition), "item_condition must be of type string");
   const query = `
 insert into inventory
 values(
@@ -41,10 +49,13 @@ current_timestamp(),
 ?,
 ?,
 ?,
+?,
+?,
 ?
 );
 `;
   const _id = uuidv1();
+  const url_title = urlify(data.title);
   const params = [
     _id,
     data.thumbnail,
@@ -53,7 +64,7 @@ current_timestamp(),
     data.make,
     data.model,
     data.title,
-    urlify(data.title),
+    url_title,
     data.sold,
     data.stock,
     data.vin,
@@ -63,9 +74,10 @@ current_timestamp(),
     data.color,
     data.engine,
     data.transmission,
-    data.options
+    data.options,
+    data.item_condition
   ];
-  return await db.query(sqlstring.format(query, params), { _id: _id });
+  return await db.query(sqlstring.format(query, params), { _id: _id, url_title: url_title });
 };
 
 module.exports.readItemType = async function(data) {
@@ -153,7 +165,6 @@ where url_title = ?
 
 module.exports.update = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.string(data.thumbnail), "thumbnail must be of type string");
   check.assert(check.string(data.item_type), "item_type must be of type string");
   check.assert(check.number(data.year), "year must be of type number");
   check.assert(check.string(data.make), "make must be of type string");
@@ -168,10 +179,10 @@ module.exports.update = async function(data) {
   check.assert(check.string(data.engine), "engine must be of type string");
   check.assert(check.string(data.transmission), "transmission must be of type string");
   check.assert(check.string(data.options), "options must be of type string");
+  check.assert(check.string(data.item_condition), "item_condition must be of type string");
   const query = `
 update inventory set
 updated_at = current_timestamp(),
-thumbnail = ?,
 item_type = ?,
 year = ?,
 make = ?,
@@ -187,11 +198,11 @@ description = ?,
 color = ?,
 engine = ?,
 transmission = ?,
-options = ?
+options = ?,
+item_condition = ?
 where _id = uuid_to_bin(?);
 `;
   const params = [
-    data.thumbnail,
     data.item_type,
     data.year,
     data.make,
@@ -208,6 +219,7 @@ where _id = uuid_to_bin(?);
     data.engine,
     data.transmission,
     data.options,
+    data.item_condition,
     data._id
   ];
   return await db.query(sqlstring.format(query, params));
