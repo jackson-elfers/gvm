@@ -242,13 +242,14 @@ options = ?,
 item_condition = ?
 where _id = uuid_to_bin(?);
 `;
+  const url_title = urlify(data.title);
   const params = [
     data.item_type,
     data.year,
     data.make,
     data.model,
     data.title,
-    urlify(data.title),
+    url_title,
     data.sold,
     data.stock,
     data.vin,
@@ -262,7 +263,7 @@ where _id = uuid_to_bin(?);
     data.item_condition,
     data._id
   ];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(sqlstring.format(query, params), { url_title: url_title });
 };
 
 module.exports.updateThumbnail = async function(data) {

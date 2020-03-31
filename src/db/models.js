@@ -56,6 +56,7 @@ created_at datetime not null,
 updated_at datetime not null,
 content_type varchar(255) not null,
 file_name varchar(255) not null,
+storage_name varchar(255) not null,
 primary key (_id)
 );
 `;

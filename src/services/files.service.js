@@ -4,12 +4,15 @@ module.exports = class {
   }
 
   s3Upload(data) {
-    check.assert(check.object(data), "expected object as first argument");
-    check.assert(check.string(data.Key), "Key must be of type string");
-    check.assert(check.stream(data.body), "body must be of type stream");
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
+    this.method.check.assert(this.method.check.string(data.Key), "Key must be of type string");
+    this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     return new Promise((resolve, reject) => {
-      var s3obj = new this.method.AWS.S3({ params: { Bucket: process.env.AWS_S3_BUCKET, Key: data.Key } });
-      s3obj.upload({ Body: data.body }).send((error, data) => {
+      this.method.AWS.config.update({ region: process.env.AWS_REGION });
+      const s3 = new this.method.AWS.S3({
+        params: { ACL: "public-read", Bucket: process.env.AWS_BUCKET_NAME, Key: data.Key }
+      });
+      s3.upload({ Body: data.body }).send((error, data) => {
         if (error) {
           reject(error);
         } else {
@@ -20,26 +23,28 @@ module.exports = class {
   }
 
   async create(data) {
-    check.assert(check.object(data), "expected object as first argument");
-    check.assert(check.string(data.file_name), "file_name must be of type string");
-    check.assert(check.stream(data.body), "body must be of type stream");
-    await this.method.db.actions.files.create(data);
-    await this.s3Upload({ Key: data.file_name, body: data.body });
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
+    this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
+    this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
+    const response = await this.method.db.actions.files.create(data);
+    await this.s3Upload({ Key: response.info.storage_name, body: data.body });
+    return response.results.info;
   }
 
   async readByOwnerId(data) {
-    check.assert(check.object(data), "expected object as first argument");
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
     return await this.method.db.actions.files.readByOwnerId(data);
   }
 
   async readByFileName(data) {
-    check.assert(check.object(data), "expected object as first argument");
-    check.assert(check.string(data.file_name), "file_name must be of type string");
-    return await this.method.axios.get(`${process.env.AWS_S3_BUCKET}${data.file_name}`);
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
+    this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
+    return await this.method.axios.get(`${process.env.AWS_S3_BUCKET}/${data.file_name}`);
   }
 
   async remove(data) {
-    check.assert(check.object(data), "expected object as first argument");
+    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
+    // s3 removal function
     await this.method.db.actions.files.remove(data);
   }
 };
