@@ -8,8 +8,9 @@ const config = require("../config");
 const check = require("check-types");
 const axios = require("axios");
 const AWS = require("aws-sdk");
+const mime = require("mime-types");
 
-const method = { db: db, check: check, utils: utils, config: config, axios: axios, AWS: AWS };
+const method = { db: db, check: check, utils: utils, config: config, axios: axios, AWS: AWS, mime: mime };
 
 module.exports.user = new User({ method: method });
 

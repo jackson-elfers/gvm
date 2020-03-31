@@ -10,7 +10,12 @@ module.exports = class {
     return new Promise((resolve, reject) => {
       this.method.AWS.config.update({ region: process.env.AWS_REGION });
       const s3 = new this.method.AWS.S3({
-        params: { ACL: "public-read", Bucket: process.env.AWS_BUCKET_NAME, Key: data.Key }
+        params: {
+          ACL: "public-read",
+          Bucket: process.env.AWS_BUCKET_NAME,
+          Key: data.Key,
+          ContentType: data.ContentType
+        }
       });
       s3.upload({ Body: data.body }).send((error, data) => {
         if (error) {
@@ -27,7 +32,7 @@ module.exports = class {
     this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
     this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     const response = await this.method.db.actions.files.create(data);
-    await this.s3Upload({ Key: response.info.storage_name, body: data.body });
+    await this.s3Upload({ Key: response.info.storage_name, body: data.body, ContentType: response.info.content_type });
     return response.results.info;
   }
 

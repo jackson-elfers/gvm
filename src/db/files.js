@@ -27,7 +27,7 @@ current_timestamp(),
   const content_type = mime.lookup(data.file_name);
   const storage_name = `${_id}.${mime.extension(content_type)}`;
   const params = [_id, data.owner_id, content_type, data.file_name, storage_name];
-  return await db.query(sqlstring.format(query, params), { storage_name: storage_name });
+  return await db.query(sqlstring.format(query, params), { storage_name: storage_name, content_type: content_type });
 };
 
 module.exports.readByOwnerId = async function(data) {
