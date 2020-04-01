@@ -34,10 +34,10 @@ module.exports.readByOwnerId = async function(req, res) {
   }
 };
 
-module.exports.readByFileName = async function(req, res) {
+module.exports.readByStorageName = async function(req, res) {
   try {
-    check.assert(check.object(req.params), "expected object attached to req.body");
-    res.json(utils.api.send((await actions.files.readByOwnerId(req.params)).results));
+    check.assert(check.object(req.params), "expected object attached to req.params");
+    (await actions.files.readByStorageName(req.params)).pipe(res);
   } catch (e) {
     console.log(e);
     res.json(

@@ -34,7 +34,7 @@ module.exports = function(app) {
   // files
   app.post("/files/create", utils.asyn.route(utils.jwt.secured), utils.asyn.route(files.create));
   app.get("/files/read/owner/:owner_id", utils.asyn.route(files.readByOwnerId));
-  app.get("/files/read/filename/:file_name", utils.asyn.route(files.readByFileName));
+  app.get("/files/read/storage/:storage_name", utils.asyn.route(files.readByStorageName));
   app.delete("/files/delete/:_id", utils.asyn.route(utils.jwt.secured), utils.asyn.route(files.remove));
 
   // client

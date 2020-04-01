@@ -4,6 +4,16 @@ const sqlstring = require("sqlstring");
 const check = require("check-types");
 const mime = require("mime-types");
 
+const columns = `
+bin_to_uuid(_id) _id,
+bin_to_uuid(owner_id) owner_id,
+created_at,
+updated_at,
+content_type,
+file_name,
+storage_name
+`;
+
 module.exports.create = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.owner_id), "owner_id must be of type string");
@@ -34,11 +44,12 @@ module.exports.readByOwnerId = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.owner_id), "owner_id must be of type string");
   const query = `
-select *
+select
+${columns}
 from files
-where owner_id = ?;
+where owner_id = uuid_to_bin(?);
 `;
-  const params = [data.url_title];
+  const params = [data.owner_id];
   return await db.query(sqlstring.format(query, params));
 };
 
