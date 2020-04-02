@@ -71,7 +71,7 @@ module.exports = class {
   async remove(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
     this.method.check.assert(this.method.check.string(data.storage_name), "storage_name must be of type string");
-    await s3Delete({ Key: response.info.storage_name });
+    await this.s3Delete({ Key: data.storage_name });
     await this.method.db.actions.files.remove(data);
   }
 };

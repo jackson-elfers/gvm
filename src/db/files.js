@@ -55,10 +55,10 @@ where owner_id = uuid_to_bin(?);
 
 module.exports.remove = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.string(data._id), "_id must be of type string");
+  check.assert(check.string(data.storage_name), "storage_name must be of type string");
   const query = `
-delete from files where _id = uuid_to_bin(?)
+delete from files where storage_name = ?;
 `;
-  const params = [data._id];
+  const params = [data.storage_name];
   return await db.query(sqlstring.format(query, params));
 };

@@ -51,8 +51,8 @@ module.exports.readByStorageName = async function(req, res) {
 
 module.exports.remove = async function(req, res) {
   try {
-    check.assert(check.object(req.body), "expected object attached to req.body");
-    await actions.files.remove(req.body);
+    check.assert(check.object(req.params), "expected object attached to req.params");
+    await actions.files.remove(req.params);
     res.json(utils.api.send(null));
   } catch (e) {
     console.log(e);

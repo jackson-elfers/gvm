@@ -141,8 +141,8 @@ module.exports.update = async function(req, res) {
 
 module.exports.remove = async function(req, res) {
   try {
-    check.assert(check.object(req.body), "expected object attached to req.body");
-    await actions.inventory.remove(req.body);
+    check.assert(check.object(req.params), "expected object attached to req.params");
+    await actions.inventory.remove(req.params);
     res.json(utils.api.send(null));
   } catch (e) {
     console.log(e);
