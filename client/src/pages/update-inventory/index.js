@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import check from "check-types";
-import { Notice } from "../../globals/components";
+import { Notice, Viewer } from "../../globals/components";
 import connect from "../../connect.js";
 
 class Main extends React.Component {
@@ -82,6 +82,7 @@ class Main extends React.Component {
         <h1>Update Inventory</h1>
         <Notice />
         <hr />
+        <Viewer owner_id={this.props.match.params._id} />
         <form id="formOne" onSubmit={this.updateInventory.bind(this)}>
           <input type="text" name="type" placeholder="type" />
           <input type="text" name="make" placeholder="make" />

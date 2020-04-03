@@ -7,3 +7,5 @@ export { default as Menu } from "./menu";
 export { default as Status } from "./status";
 
 export { default as LoggedIn } from "./loggedin";
+
+export { default as Viewer } from "./viewer";
