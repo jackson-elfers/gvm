@@ -5,8 +5,8 @@ const check = require("check-types");
 const urlify = require("urlify").create({
   addEToUmlauts: true,
   szToSs: true,
-  spaces: "_",
-  nonPrintable: "_",
+  spaces: "-",
+  nonPrintable: "-",
   trim: true
 });
 
@@ -20,6 +20,7 @@ year,
 make,
 model,
 title,
+url_title,
 sold,
 stock,
 vin,

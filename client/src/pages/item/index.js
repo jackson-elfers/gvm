@@ -1,13 +1,85 @@
 import React from "react";
+import { Notice, Viewer } from "../../globals/components";
+import connect from "../../connect.js";
+import axios from "axios";
 
 class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      loading: true
+    };
+  }
+
+  async loadItem() {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API}/inventory/item/title/${this.props.match.params.url_title}`
+      );
+      if (response.data.error) {
+        throw new Error(response.data.error.detail);
+      }
+      if (response.data.data.length === 0) {
+        throw new Error("item doesn't exist");
+      }
+      this.setState({ data: response.data.data[0] });
+    } catch (e) {
+      this.props.actions.notice.message(e.message);
+    }
+  }
+
+  async componentDidMount() {
+    await this.loadItem();
+    this.setState({ loading: false });
+    console.log(this.state.data);
+  }
+
   render() {
+    if (this.state.loading) {
+      return <div style={{ display: "none" }}></div>;
+    }
     return (
       <div>
-        <h1>Home</h1>
+        <h1>Item</h1>
+        <Notice />
         <hr />
+        <h3>{`${this.state.data.year} ${this.state.data.make} ${this.state.data.model}`}</h3>
+        <Viewer owner_id={this.state.data._id} />
+        <h3>Price</h3>
+        <hr />
+        <p>{this.state.data.price}</p>
+        <h3>{this.state.data.sold ? "SOLD" : "FOR SALE"}</h3>
+        <hr />
+        <h3>Description</h3>
+        <hr />
+        <p>{this.state.data.description}</p>
+        <h3>Stock</h3>
+        <hr />
+        <p>{this.state.data.stock}</p>
+        <h3>Vin</h3>
+        <hr />
+        <p>{this.state.data.vin}</p>
+        <h3>Mileage</h3>
+        <hr />
+        <p>{this.state.data.mileage}</p>
+        <h3>Color</h3>
+        <hr />
+        <p>{this.state.data.color}</p>
+        <h3>Engine</h3>
+        <hr />
+        <p>{this.state.data.engine}</p>
+        <h3>Transmission</h3>
+        <hr />
+        <p>{this.state.data.transmission}</p>
+        <h3>Options</h3>
+        <hr />
+        <p>{this.state.data.options}</p>
+        <h3>Condition</h3>
+        <hr />
+        <p>{this.state.data.item_condition}</p>
       </div>
     );
   }
 }
-export default Main;
+export default connect(Main);
