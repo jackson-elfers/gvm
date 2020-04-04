@@ -81,6 +81,7 @@ module.exports.readModel = async function(req, res) {
 module.exports.readSelect = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
+    req.params.year = req.params.year === "null" ? "null" : Number(req.params.year);
     res.json(utils.api.send((await actions.inventory.readSelect(req.params)).results));
   } catch (e) {
     console.log(e);

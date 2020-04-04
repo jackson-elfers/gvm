@@ -160,19 +160,18 @@ order by model desc;
 module.exports.readSelect = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.item_type), "item_type must be of type string");
-  check.assert(check.number(data.year), "year must be of type number");
+  check.assert(data.year === "null" ? true : check.number(data.year), "year must be of type number");
   check.assert(check.string(data.make), "make must be of type string");
   check.assert(check.string(data.model), "model must be of type string");
-  var where = data.item_type !== "" ? ` ${data.item_type} and ` : ``;
-  where += data.year !== "" ? ` ${data.year} and ` : ``;
-  where += data.make !== "" ? ` ${data.make} and ` : ``;
-  where += data.model !== "" ? ` ${data.model}` : ``;
+  var where = data.item_type !== "null" ? `item_type = ? and ` : `item_type = item_type and `;
+  where += data.year !== "null" ? `year = ? and ` : `year = year and `;
+  where += data.make !== "null" ? `make = ? and ` : `make = make and `;
+  where += data.model !== "null" ? `model = ?` : `model = model`;
   const query = `
 select
 ${columns}
 from inventory
-from inventory
-where ${where}
+where ${where};
 `;
   const params = [data.item_type, data.year, data.make, data.model];
   return await db.query(sqlstring.format(query, params));
