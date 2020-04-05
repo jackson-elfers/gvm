@@ -105,56 +105,40 @@ current_timestamp(),
   return await db.query(sqlstring.format(query, params), { _id: _id, url_title: url_title });
 };
 
-module.exports.readItemType = async function(data) {
-  check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.string(data.item_type), "item_type must be of type string");
+module.exports.readItemType = async function() {
   const query = `
-select distinct *
+select distinct item_type as selection
 from inventory
-where item_type = ?
 order by item_type desc;
 `;
-  const params = [data.item_type];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(query);
 };
 
-module.exports.readYear = async function(data) {
-  check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.number(data.year), "year must be of type string");
+module.exports.readYear = async function() {
   const query = `
-select distinct *
+select distinct year as selection
 from inventory
-where year = ?
 order by year desc;
 `;
-  const params = [data.year];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(query);
 };
 
-module.exports.readMake = async function(data) {
-  check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.string(data.make), "year must be of type string");
+module.exports.readMake = async function() {
   const query = `
-select distinct *
+select distinct make as selection
 from inventory
-where make = ?
 order by make desc;
 `;
-  const params = [data.make];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(query);
 };
 
-module.exports.readModel = async function(data) {
-  check.assert(check.object(data), "expected object as first argument");
-  check.assert(check.string(data.make), "year must be of type string");
+module.exports.readModel = async function() {
   const query = `
-select distinct *
+select distinct model as selection
 from inventory
-where model = ?
 order by model desc;
 `;
-  const params = [data.model];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(query);
 };
 
 module.exports.readSelect = async function(data) {
@@ -163,18 +147,22 @@ module.exports.readSelect = async function(data) {
   check.assert(data.year === "null" ? true : check.number(data.year), "year must be of type number");
   check.assert(check.string(data.make), "make must be of type string");
   check.assert(check.string(data.model), "model must be of type string");
+  check.assert(check.number(data.index), "index must be of type number");
+  check.assert(check.number(data.offset), "offset must be of type number");
   var where = data.item_type !== "null" ? `item_type = ? and ` : `item_type = item_type and `;
-  where += data.year !== "null" ? `year = ? and ` : `year = year and `;
-  where += data.make !== "null" ? `make = ? and ` : `make = make and `;
-  where += data.model !== "null" ? `model = ?` : `model = model`;
+  where += data.year !== "null" ? `year = ${sqlstring.escape(data.year)} and ` : `year = year and `;
+  where += data.make !== "null" ? `make = ${sqlstring.escape(data.make)} and ` : `make = make and `;
+  where += data.model !== "null" ? `model = ${sqlstring.escape(data.model)}` : `model = model`;
   const query = `
 select
 ${columns}
 from inventory
-where ${where};
+where ${where}
+order by price desc limit ${sqlstring.escape(data.index) * sqlstring.escape(data.offset)}, ${sqlstring.escape(
+    data.offset
+  )};
 `;
-  const params = [data.item_type, data.year, data.make, data.model];
-  return await db.query(sqlstring.format(query, params));
+  return await db.query(query);
 };
 
 module.exports.readSingleByUrlTitle = async function(data) {

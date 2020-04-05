@@ -20,8 +20,7 @@ module.exports.create = async function(req, res) {
 
 module.exports.readItemType = async function(req, res) {
   try {
-    check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readItemType(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readItemType()).results));
   } catch (e) {
     console.log(e);
     res.json(
@@ -35,8 +34,7 @@ module.exports.readItemType = async function(req, res) {
 
 module.exports.readYear = async function(req, res) {
   try {
-    check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readYear(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readYear()).results));
   } catch (e) {
     console.log(e);
     res.json(
@@ -50,8 +48,7 @@ module.exports.readYear = async function(req, res) {
 
 module.exports.readMake = async function(req, res) {
   try {
-    check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readMake(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readMake()).results));
   } catch (e) {
     console.log(e);
     res.json(
@@ -65,8 +62,7 @@ module.exports.readMake = async function(req, res) {
 
 module.exports.readModel = async function(req, res) {
   try {
-    check.assert(check.object(req.params), "expected object attached to req.params");
-    res.json(utils.api.send((await actions.inventory.readModel(req.params)).results));
+    res.json(utils.api.send((await actions.inventory.readModel()).results));
   } catch (e) {
     console.log(e);
     res.json(
@@ -82,6 +78,8 @@ module.exports.readSelect = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");
     req.params.year = req.params.year === "null" ? "null" : Number(req.params.year);
+    req.params.index = Number(req.params.index);
+    req.params.offset = Number(req.params.offset);
     res.json(utils.api.send((await actions.inventory.readSelect(req.params)).results));
   } catch (e) {
     console.log(e);

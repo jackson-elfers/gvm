@@ -8,24 +8,20 @@ module.exports = class {
     return await this.method.services.inventory.create(data);
   }
 
-  async readItemType(data) {
-    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    return await this.method.services.inventory.readItemType(data);
+  async readItemType() {
+    return await this.method.services.inventory.readItemType();
   }
 
-  async readYear(data) {
-    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    return await this.method.services.inventory.readYear(data);
+  async readYear() {
+    return await this.method.services.inventory.readYear();
   }
 
-  async readMake(data) {
-    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    return await this.method.services.inventory.readMake(data);
+  async readMake() {
+    return await this.method.services.inventory.readMake();
   }
 
-  async readModel(data) {
-    this.method.check.assert(this.method.check.object(data), "expected object as first argument");
-    return await this.method.services.inventory.readModel(data);
+  async readModel() {
+    return await this.method.services.inventory.readModel();
   }
 
   async readSelect(data) {

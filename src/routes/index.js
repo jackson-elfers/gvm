@@ -16,11 +16,11 @@ module.exports = function(app) {
 
   // inventory
   app.post("/inventory/create", utils.asyn.route(utils.jwt.secured), utils.asyn.route(inventory.create));
-  app.get("/inventory/item_type/:item_type", utils.asyn.route(inventory.readItemType));
-  app.get("/inventory/year/:year", utils.asyn.route(inventory.readYear));
-  app.get("/inventory/make/:make", utils.asyn.route(inventory.readMake));
-  app.get("/inventory/model/:model", utils.asyn.route(inventory.readModel));
-  app.get("/inventory/select/:item_type/:year/:make/:model", utils.asyn.route(inventory.readSelect));
+  app.get("/inventory/item_type", utils.asyn.route(inventory.readItemType));
+  app.get("/inventory/year", utils.asyn.route(inventory.readYear));
+  app.get("/inventory/make", utils.asyn.route(inventory.readMake));
+  app.get("/inventory/model", utils.asyn.route(inventory.readModel));
+  app.get("/inventory/select/:item_type/:year/:make/:model/:index/:offset", utils.asyn.route(inventory.readSelect));
   app.get("/inventory/item/title/:url_title", utils.asyn.route(inventory.readSingleByUrlTitle));
   app.get("/inventory/item/id/:_id", utils.asyn.route(inventory.readSingleById));
   app.put("/inventory/update", utils.asyn.route(utils.jwt.secured), utils.asyn.route(inventory.update));
