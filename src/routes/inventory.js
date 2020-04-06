@@ -138,6 +138,22 @@ module.exports.update = async function(req, res) {
   }
 };
 
+module.exports.updateThumbnail = async function(req, res) {
+  try {
+    check.assert(check.object(req.body), "expected object attached to req.body");
+    await actions.inventory.updateThumbnail(req.body);
+    res.json(utils.api.send(null));
+  } catch (e) {
+    console.log(e);
+    res.json(
+      utils.api.error({
+        status: 400,
+        detail: "invalid or malformed parameters"
+      })
+    );
+  }
+};
+
 module.exports.remove = async function(req, res) {
   try {
     check.assert(check.object(req.params), "expected object attached to req.params");

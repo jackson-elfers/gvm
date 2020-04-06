@@ -5,6 +5,20 @@ import axios from "axios";
 
 const Media = connect(
   class extends React.Component {
+    async updateThumbnail() {
+      try {
+        const response = await axios.put(`${process.env.REACT_APP_API}/inventory/update/thumbnail`, {
+          _id: this.props.owner_id,
+          thumbnail: this.props.data.storage_name
+        });
+        if (response.data.error) {
+          throw new Error(response.data.error.detail);
+        }
+      } catch (e) {
+        this.props.actions.notice.message(e.message);
+      }
+    }
+
     async removeMedia() {
       try {
         await axios.delete(`${process.env.REACT_APP_API}/files/delete/${this.props.data.storage_name}`);
@@ -17,6 +31,7 @@ const Media = connect(
     render() {
       const options = (
         <div>
+          <button onClick={this.updateThumbnail.bind(this)}>Update Thumbnail</button>
           <button onClick={this.removeMedia.bind(this)}>DELETE</button>
         </div>
       );
@@ -36,7 +51,7 @@ function Viewer(props) {
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
       <div key={props.data[i].storage_name}>
-        <Media data={props.data[i]} handlers={props.handlers} />
+        <Media owner_id={props.owner_id} data={props.data[i]} handlers={props.handlers} />
       </div>
     );
   }
@@ -76,7 +91,7 @@ class Main extends React.Component {
       <div>
         <div>
           <div style={{ height: "600px", overflow: "scroll" }}>
-            <Viewer data={this.state.data} handlers={[this.updateMedia.bind(this)]} />
+            <Viewer owner_id={this.props.owner_id} data={this.state.data} handlers={[this.updateMedia.bind(this)]} />
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ module.exports = class {
     this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     const response = await this.method.db.actions.files.create(data);
     await this.s3Upload({ Key: response.info.storage_name, body: data.body, ContentType: response.info.content_type });
-    return response.results.info;
+    return response;
   }
 
   async readByOwnerId(data) {

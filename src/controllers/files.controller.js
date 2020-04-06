@@ -14,7 +14,7 @@ module.exports = class {
     ) {
       throw new Error("file must be of type image/jpeg or image/png");
     }
-    await this.method.services.files.create(data);
+    return await this.method.services.files.create(data);
   }
 
   async readByOwnerId(data) {

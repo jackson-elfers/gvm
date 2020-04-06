@@ -12,6 +12,21 @@ class Main extends React.Component {
     };
   }
 
+  async updateThumbnail(data) {
+    try {
+      console.log(data);
+      const response = await axios.put(`${process.env.REACT_APP_API}/inventory/update/thumbnail`, {
+        _id: this.props.match.params._id,
+        thumbnail: data.thumbnail
+      });
+      if (response.data.error) {
+        throw new Error(response.data.error.detail);
+      }
+    } catch (e) {
+      this.props.actions.notice.message(e.message);
+    }
+  }
+
   async upload(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
@@ -28,6 +43,9 @@ class Main extends React.Component {
       );
       if (response.data.error) {
         throw new Error(response.data.error.detail);
+      }
+      if (this.state.index === 0) {
+        await this.updateThumbnail({ thumbnail: response.data.data.storage_name });
       }
       if (this.state.index === form.uploads.files.length - 1) {
         this.setState({ index: 0 });

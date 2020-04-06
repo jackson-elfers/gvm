@@ -256,6 +256,7 @@ where _id = uuid_to_bin(?);
 
 module.exports.updateThumbnail = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
+  check.assert(check.string(data._id), "_id must be of type string");
   check.assert(check.string(data.thumbnail), "thumbnail must be of type string");
   const query = `
 update inventory set

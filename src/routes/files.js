@@ -6,8 +6,8 @@ module.exports.create = async function(req, res) {
   try {
     const file_meta = JSON.parse(req.headers.file_meta);
     const data = { body: req, owner_id: file_meta._id, file_name: file_meta.file_name };
-    await actions.files.create(data);
-    res.json(utils.api.send(null));
+    const response = await actions.files.create(data);
+    res.json(utils.api.send({ storage_name: response.info.storage_name }));
   } catch (e) {
     console.log(e);
     res.json(
