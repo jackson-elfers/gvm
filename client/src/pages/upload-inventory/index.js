@@ -8,13 +8,29 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: {},
+      uploading: false,
       index: 0
     };
   }
 
+  async loadItem() {
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_API}/inventory/item/id/${this.props.match.params._id}`);
+      if (response.data.error) {
+        throw new Error(response.data.error.detail);
+      }
+      if (response.data.data.length === 0) {
+        throw new Error("item doesn't exist");
+      }
+      this.setState({ data: response.data.data[0] });
+    } catch (e) {
+      this.props.actions.notice.message(e.message);
+    }
+  }
+
   async updateThumbnail(data) {
     try {
-      console.log(data);
       const response = await axios.put(`${process.env.REACT_APP_API}/inventory/update/thumbnail`, {
         _id: this.props.match.params._id,
         thumbnail: data.thumbnail
@@ -30,12 +46,13 @@ class Main extends React.Component {
   async upload(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
-    const file_meta = {
-      _id: this.props.match.params._id,
-      file_name: form.uploads.files[this.state.index.toString()].name
-    };
-    const headers = { "Content-Type": "application/octet-stream", file_meta: JSON.stringify(file_meta) };
     try {
+      this.setState({ uploading: true });
+      const file_meta = {
+        _id: this.props.match.params._id,
+        file_name: form.uploads.files[this.state.index.toString()].name
+      };
+      const headers = { "Content-Type": "application/octet-stream", file_meta: JSON.stringify(file_meta) };
       const response = await axios.post(
         `${process.env.REACT_APP_API}/files/create`,
         form.uploads.files.item(this.state.index),
@@ -49,16 +66,22 @@ class Main extends React.Component {
       }
       if (this.state.index === form.uploads.files.length - 1) {
         this.setState({ index: 0 });
-        //this.props.history.push(`/item/${response.data.data.url_title}`);
+        this.setState({ uploading: false });
         console.log("complete!");
+        this.props.history.push(`/item/${this.state.data.url_title}`);
         return;
       }
       this.setState({ index: ++this.state.index }, async () => {
         await this.upload(e);
       });
     } catch (e) {
+      this.setState({ uploading: false });
       this.props.actions.notice.message(e.message);
     }
+  }
+
+  async componentDidMount() {
+    await this.loadItem();
   }
 
   render() {
@@ -67,7 +90,14 @@ class Main extends React.Component {
         <h1>Upload Media</h1>
         <Notice />
         <hr />
-        <form id="formOne" onSubmit={this.upload.bind(this)}>
+        <div style={this.state.uploading ? { display: "block" } : { display: "none" }}>
+          <img src={`${process.env.REACT_APP_API}/images/spinner.gif`} />
+        </div>
+        <form
+          style={this.state.uploading ? { display: "none" } : { display: "block" }}
+          id="formOne"
+          onSubmit={this.upload.bind(this)}
+        >
           <input type="file" name="uploads" multiple />
           <input type="submit" value="upload" />
         </form>

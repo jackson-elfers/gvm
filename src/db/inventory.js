@@ -2,6 +2,7 @@ const db = require("./index");
 const uuidv1 = require("uuid/v1");
 const sqlstring = require("sqlstring");
 const check = require("check-types");
+const shortid = require("shortid");
 const urlify = require("urlify").create({
   addEToUmlauts: true,
   szToSs: true,
@@ -80,7 +81,7 @@ current_timestamp(),
 );
 `;
   const _id = uuidv1();
-  const url_title = urlify(data.title);
+  const url_title = `${shortid.generate()}-${urlify(data.title)}`;
   const params = [
     _id,
     data.thumbnail,
@@ -230,7 +231,7 @@ options = ?,
 item_condition = ?
 where _id = uuid_to_bin(?);
 `;
-  const url_title = urlify(data.title);
+  const url_title = `${shortid.generate()}-${urlify(data.title)}`;
   const params = [
     data.item_type,
     data.year,
