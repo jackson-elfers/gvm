@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Notice, Viewer } from "../../globals/components";
+import { Link } from "react-router-dom";
 import connect from "../../connect.js";
 
 function Slides(props) {
@@ -8,8 +9,11 @@ function Slides(props) {
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
       <div key={props.data[i]._id}>
-        <p>{props.data[i]._id}</p>
-        <img src={props.data[i].thumbnail} />
+        <Link to={`/item/${props.data[i].url_title}`}>
+          <h3>{`${props.data[i].year} ${props.data[i].make} ${props.data[i].model}`}</h3>
+          <h3>{`${props.data[i].price}`}</h3>
+          <img src={`${process.env.REACT_APP_API}/files/read/storage/${props.data[i].thumbnail}`} />
+        </Link>
       </div>
     );
   }
@@ -55,7 +59,11 @@ class Main extends React.Component {
         throw new Error(response.data.error.detail);
       }
       console.log(response.data.data);
-      this.setState({ data: response.data.data });
+      const update = JSON.parse(JSON.stringify(this.state.data));
+      for (var i = 0; i < response.data.data.length; ++i) {
+        update.push(response.data.data[i]);
+      }
+      this.setState({ data: update });
     } catch (e) {
       this.props.actions.notice.message(e.message);
     }

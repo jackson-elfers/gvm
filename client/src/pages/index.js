@@ -8,6 +8,8 @@ export { default as Register } from "./register";
 
 export { default as Account } from "./account";
 
+export { default as Admin } from "./admin";
+
 export { default as UpdateUsername } from "./update-username";
 
 export { default as UpdatePassword } from "./update-password";

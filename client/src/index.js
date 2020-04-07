@@ -9,6 +9,7 @@ import "./globals/styles";
 import {
   Home,
   Account,
+  Admin,
   Login,
   Logout,
   Register,
@@ -28,7 +29,6 @@ import {
   UploadInventory,
   NotFound
 } from "./pages";
-import { Status } from "./globals/components";
 import * as serviceWorker from "./serviceWorker";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -36,7 +36,6 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 const routing = (
   <Provider store={store}>
     <Router>
-      <Status />
       <div>
         <Switch>
           <Route exact path="/" component={Home} />
@@ -54,6 +53,7 @@ const routing = (
           <Route exact path="/shipping" component={Shipping} />
           <Route exact path="/contact" component={Contact} />
           <Route exact path="/item/:url_title" component={Item} />
+          <Route exact path="/admin" component={Admin} />
           <Route exact path="/admin/inventory/create" component={CreateInventory} />
           <Route exact path="/admin/inventory/update/:_id" component={UpdateInventory} />
           <Route exact path="/admin/inventory/delete/:_id" component={DeleteInventory} />
