@@ -12,7 +12,7 @@ module.exports = class {
       const s3 = new this.method.AWS.S3({
         params: {
           ACL: "public-read",
-          Bucket: process.env.AWS_UPLOAD_BUCKET_NAME,
+          Bucket: process.env.AWS_BUCKET_NAME,
           Key: data.Key,
           ContentType: data.ContentType
         }
