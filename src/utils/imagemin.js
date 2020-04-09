@@ -16,7 +16,7 @@ async function compress(data) {
     destination: data.dest,
     plugins: [imageminJpegtran(), imageminPngquant({ quality: [0.6, 0.8] })]
   };
-  return (await imagemin([path.join(data.src, "*.{jpg, png}")], params))[0];
+  return (await imagemin([path.join(data.src, "*.{jpeg, png}")], params))[0];
 }
 
 function promisePipe(input, output) {
@@ -46,11 +46,11 @@ module.exports = async function(data) {
     await pfs.mkdir(path.join(__dirname, "./images/output"));
   }
   await promisePipe(data.input, fs.createWriteStream(path.join(__dirname, `./images/input/${filename}`)));
-  //const file = await compress({
-  //src: path.join(__dirname, `./images/input`),
-  //dest: path.join(__dirname, `./images/output`)
-  //});
-  //await promiseUnlink({ path: path.join(__dirname, `./images/input/${filename}`) });
-  //await promiseUnlink({ path: path.join(__dirname, `./images/output/${filename}`) });
-  //return file;
+  const file = await compress({
+    src: path.join(__dirname, `./images/input`),
+    dest: path.join(__dirname, `./images/output`)
+  });
+  await pfs.unlink(path.join(__dirname, `./images/input/${filename}`));
+  await pfs.unlink(path.join(__dirname, `./images/output/${filename}`));
+  return file.data;
 };
