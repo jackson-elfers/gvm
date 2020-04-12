@@ -37,7 +37,11 @@ function promisePipe(input, output) {
 module.exports = async function(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.object(data.input), "input must be of type object");
-  const filename = `${uuid()}.${mime.extension(mime.lookup(data.input.path))}`;
+  check.assert(check.string(data.content_type), "content_type must be of type string");
+  if (!mime.extension(data.content_type)) {
+    throw new Error("content_type is invalid");
+  }
+  const filename = `${uuid()}.${mime.extension(data.content_type)}`;
   try {
     await pfs.access(path.join(__dirname, "./images"));
   } catch (e) {

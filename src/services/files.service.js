@@ -6,7 +6,6 @@ module.exports = class {
   s3Upload(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
     this.method.check.assert(this.method.check.string(data.Key), "Key must be of type string");
-    this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     return new Promise((resolve, reject) => {
       this.method.AWS.config.update({ region: process.env.AWS_REGION });
       const s3 = new this.method.AWS.S3({
@@ -52,7 +51,8 @@ module.exports = class {
     this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
     this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     const response = await this.method.db.actions.files.create(data);
-    await this.s3Upload({ Key: response.info.storage_name, body: data.body, ContentType: response.info.content_type });
+    const compressed = await this.method.utils.imagemin({ input: data.body, content_type: response.info.content_type });
+    await this.s3Upload({ Key: response.info.storage_name, body: compressed, ContentType: response.info.content_type });
     return response;
   }
 
