@@ -1,11 +1,49 @@
 import React from "react";
 
+class SlideShow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      urls: [
+        "/images/slideshow/01.jpg",
+        "/images/slideshow/02.jpg",
+        "/images/slideshow/03.jpg",
+        "/images/slideshow/04.jpg",
+        "/images/slideshow/05.jpg",
+        "/images/slideshow/06.jpg"
+      ],
+      index: 0
+    };
+  }
+
+  async nextSlide() {
+    if (this.state.index > this.state.urls.length - 2) {
+      this.setState({ index: 0 });
+    } else {
+      this.setState({ index: ++this.state.index });
+    }
+  }
+
+  componentDidMount() {
+    setInterval(this.nextSlide.bind(this), 2000);
+  }
+
+  render() {
+    return (
+      <div>
+        <img src={`${process.env.REACT_APP_API}/${this.state.urls[this.state.index]}`} />
+      </div>
+    );
+  }
+}
+
 class Main extends React.Component {
   render() {
     return (
       <div>
         <h1>Home</h1>
         <hr />
+        <SlideShow />
         <a href="/inventory">
           <hr />
           <h2>Inventory</h2>
