@@ -30,7 +30,7 @@ class SlideShow extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ height: "350px" }}>
         <img src={`${process.env.REACT_APP_API}/${this.state.urls[this.state.index]}`} />
       </div>
     );
@@ -41,20 +41,19 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
         <hr />
         <SlideShow />
         <a href="/inventory">
           <hr />
-          <h2>Inventory</h2>
+          <h3>Inventory</h3>
         </a>
         <a href="/sell">
           <hr />
-          <h2>Sell a Vehicle</h2>
+          <h3>Sell a Vehicle</h3>
         </a>
         <a href="/contact">
           <hr />
-          <h2>Talk to Us</h2>
+          <h3>Talk to Us</h3>
         </a>
         <img alt="man standing by wheel of car" src={`${process.env.REACT_APP_API}/images/quote.jpg`} />
         <p>

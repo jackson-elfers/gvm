@@ -29,6 +29,7 @@ import {
   UploadInventory,
   NotFound
 } from "./pages";
+import { Header, Footer } from "./globals/components";
 import * as serviceWorker from "./serviceWorker";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -37,6 +38,7 @@ const routing = (
   <Provider store={store}>
     <Router>
       <div>
+        <Header />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/account" component={Account} />
@@ -60,6 +62,7 @@ const routing = (
           <Route exact path="/admin/inventory/upload/:_id" component={UploadInventory} />
           <Route component={NotFound} />
         </Switch>
+        <Footer />
       </div>
     </Router>
   </Provider>

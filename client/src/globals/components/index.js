@@ -9,3 +9,7 @@ export { default as Status } from "./status";
 export { default as LoggedIn } from "./loggedin";
 
 export { default as Viewer } from "./viewer";
+
+export { default as Header } from "./header";
+
+export { default as Footer } from "./footer";
