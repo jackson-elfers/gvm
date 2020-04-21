@@ -39,7 +39,10 @@ const Media = connect(
       return (
         <div>
           {this.props.globals.user !== null ? options : <div style={{ display: "none" }}></div>}
-          <img src={`${process.env.REACT_APP_API}/files/read/storage/${this.props.data.storage_name}`} />
+          <img
+            style={{ width: "100%" }}
+            src={`${process.env.REACT_APP_API}/files/read/storage/${this.props.data.storage_name}`}
+          />
         </div>
       );
     }

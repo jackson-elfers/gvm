@@ -81,7 +81,11 @@ current_timestamp(),
 );
 `;
   const _id = uuidv1();
-  const url_title = `${shortid.generate()}-${urlify(data.title)}`;
+  const short_title = data.title
+    .split(" ")
+    .slice(0, 12)
+    .join(" ");
+  const url_title = `${shortid.generate()}-${urlify(short_title)}`;
   const params = [
     _id,
     data.thumbnail,

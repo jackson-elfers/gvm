@@ -32,7 +32,6 @@ class Main extends React.Component {
   async componentDidMount() {
     await this.loadItem();
     this.setState({ loading: false });
-    console.log(this.state.data);
   }
 
   render() {
@@ -44,12 +43,13 @@ class Main extends React.Component {
         <h1>Item</h1>
         <Notice />
         <hr />
-        <h3>{`${this.state.data.year} ${this.state.data.make} ${this.state.data.model}`}</h3>
+        <h3>{`${this.state.data.sold ? "SOLD" : ""} ${this.state.data.year === 0 ? "" : this.state.data.year} ${
+          this.state.data.make
+        } ${this.state.data.model} $${this.state.data.price}`}</h3>
         <Viewer owner_id={this.state.data._id} />
         <h3>Price</h3>
         <hr />
-        <p>{this.state.data.price}</p>
-        <h3>{this.state.data.sold ? "SOLD" : "FOR SALE"}</h3>
+        <p>{`$${this.state.data.price}`}</p>
         <hr />
         <h3>Description</h3>
         <hr />

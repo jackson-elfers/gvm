@@ -4,15 +4,26 @@ import { Notice, Viewer } from "../../globals/components";
 import { Link } from "react-router-dom";
 import connect from "../../connect.js";
 
+function selectModify(selection) {
+  if (selection === 0) {
+    return "Unknown";
+  }
+  return selection;
+}
+
 function Slides(props) {
   var temp = [];
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
       <div key={props.data[i]._id}>
         <Link to={`/item/${props.data[i].url_title}`}>
-          <h3>{`${props.data[i].year} ${props.data[i].make} ${props.data[i].model}`}</h3>
-          <h3>{`${props.data[i].price}`}</h3>
-          <img src={`${process.env.REACT_APP_API}/files/read/storage/${props.data[i].thumbnail}`} />
+          <h3>{`${props.data[i].sold ? "SOLD" : ""} ${props.data[i].year === 0 ? "" : props.data[i].year} ${
+            props.data[i].make
+          } ${props.data[i].model} $${props.data[i].price}`}</h3>
+          <img
+            style={{ width: "100%" }}
+            src={`${process.env.REACT_APP_API}/files/read/storage/${props.data[i].thumbnail}`}
+          />
         </Link>
       </div>
     );
@@ -25,7 +36,7 @@ function SelectOptions(props) {
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
       <option key={props.data[i].selection} value={props.data[i].selection}>
-        {props.data[i].selection}
+        {selectModify(props.data[i].selection)}
       </option>
     );
   }
