@@ -1,5 +1,5 @@
 const imagemin = require("imagemin");
-const imageminJpegtran = require("imagemin-jpegtran");
+const imageminMozjpeg = require("imagemin-mozjpeg");
 const imageminPngquant = require("imagemin-pngquant");
 const fs = require("fs");
 const pfs = require("promise-fs");
@@ -14,9 +14,9 @@ async function compress(data) {
   check.assert(check.string(data.dest), "dest must be of type string");
   const params = {
     destination: data.dest,
-    plugins: [imageminJpegtran(), imageminPngquant({ quality: [0.6, 0.8] })]
+    plugins: [imageminMozjpeg(), imageminPngquant({ quality: [0.6, 0.8] })]
   };
-  return (await imagemin([path.join(data.src, "*.{jpeg, png}")], params))[0];
+  return (await imagemin([path.join(data.src, "*.{jpeg, jpg, png}")], params))[0];
 }
 
 function promisePipe(input, output) {

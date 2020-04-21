@@ -58,6 +58,7 @@
     "express-force-https": "^1.0.0",
     "imagemin": "^7.0.1",
     "imagemin-jpegtran": "^6.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
     "imagemin-pngquant": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "mime-types": "^2.1.26",
