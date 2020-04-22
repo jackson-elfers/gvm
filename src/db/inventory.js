@@ -86,7 +86,7 @@ current_timestamp(),
     .slice(0, 12)
     .join(" ")
     .toLowerCase();
-  const url_title = `${shortid.generate()}-${urlify(short_title)}`;
+  const url_title = `${data.year}-${data.make}-${data.model}-${urlify(short_title)}-${shortid.generate()}`;
   const params = [
     _id,
     data.thumbnail,
@@ -241,7 +241,7 @@ where _id = uuid_to_bin(?);
     .slice(0, 12)
     .join(" ")
     .toLowerCase();
-  const url_title = `${shortid.generate()}-${urlify(short_title)}`;
+  const url_title = `${data.year}-${data.make}-${data.model}-${urlify(short_title)}-${shortid.generate()}`;
   const params = [
     data.item_type,
     data.year,
