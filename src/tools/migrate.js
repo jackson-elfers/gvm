@@ -43,7 +43,8 @@ async function migrate() {
   // seed database models
   await db.actions.models();
   console.log("database: connected");
-  const response = await axios.get("https://www.giocars.com/inventory/search/all/all/all/all/0");
+  const response = await axios.get("https://www.giocars.com/inventory/search/all/all/all/all/1");
+  console.log(response.data.body);
   for (var i = 0; i < response.data.body.length; ++i) {
     console.log(`${i}`);
     await upload(response.data.body[i]);
@@ -51,6 +52,6 @@ async function migrate() {
   console.log("Complete");
 }
 
-migrate().catch(error => {
-  console.log(error);
-});
+//migrate().catch(error => {
+//console.log(error);
+//});
