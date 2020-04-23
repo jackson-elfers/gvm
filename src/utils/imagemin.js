@@ -8,6 +8,31 @@ const uuid = require("uuid/v1");
 const check = require("check-types");
 const mime = require("mime-types");
 
+function clearDir(data) {
+  check.assert(check.object(data), "expected object as first argument");
+  check.assert(check.string(data.dirpath), "dirpath must be of type string");
+  return new Promise((resolve, reject) => {
+    fs.readdir(data.dirpath, (error, files) => {
+      if (error) {
+        reject(error);
+      }
+      for (const file of files) {
+        fs.unlink(path.join(data.dirpath, file), error => {
+          if (error) {
+            reject(error);
+          }
+        });
+      }
+      resolve();
+    });
+  });
+}
+
+async function clear() {
+  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/input/`)) });
+  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/output/`)) });
+}
+
 async function compress(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.src), "src must be of type string");
@@ -49,12 +74,12 @@ module.exports = async function(data) {
     await pfs.mkdir(path.join(__dirname, "./images/input"));
     await pfs.mkdir(path.join(__dirname, "./images/output"));
   }
+  await clear();
   await promisePipe(data.input, fs.createWriteStream(path.join(__dirname, `./images/input/${filename}`)));
   const file = await compress({
     src: path.join(__dirname, `./images/input`),
     dest: path.join(__dirname, `./images/output`)
   });
-  await pfs.unlink(path.join(__dirname, `./images/input/${filename}`));
-  await pfs.unlink(path.join(__dirname, `./images/output/${filename}`));
+  await clear();
   return file.data;
 };

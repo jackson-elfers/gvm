@@ -86,7 +86,9 @@ current_timestamp(),
     .slice(0, 12)
     .join(" ")
     .toLowerCase();
-  const url_title = `${data.year}-${data.make}-${data.model}-${urlify(short_title)}-${shortid.generate()}`;
+  const url_title = `${data.year}-${urlify(data.make)}-${urlify(data.model)}-${urlify(
+    short_title
+  )}-${shortid.generate()}`;
   const params = [
     _id,
     data.thumbnail,
@@ -155,7 +157,8 @@ module.exports.readSelect = async function(data) {
   check.assert(check.string(data.model), "model must be of type string");
   check.assert(check.number(data.index), "index must be of type number");
   check.assert(check.number(data.offset), "offset must be of type number");
-  var where = data.item_type !== "null" ? `item_type = ? and ` : `item_type = item_type and `;
+  var where =
+    data.item_type !== "null" ? `item_type = ${sqlstring.escape(data.item_type)} and ` : `item_type = item_type and `;
   where += data.year !== "null" ? `year = ${sqlstring.escape(data.year)} and ` : `year = year and `;
   where += data.make !== "null" ? `make = ${sqlstring.escape(data.make)} and ` : `make = make and `;
   where += data.model !== "null" ? `model = ${sqlstring.escape(data.model)}` : `model = model`;
@@ -241,7 +244,9 @@ where _id = uuid_to_bin(?);
     .slice(0, 12)
     .join(" ")
     .toLowerCase();
-  const url_title = `${data.year}-${data.make}-${data.model}-${urlify(short_title)}-${shortid.generate()}`;
+  const url_title = `${data.year}-${urlify(data.make)}-${urlify(data.model)}-${urlify(
+    short_title
+  )}-${shortid.generate()}`;
   const params = [
     data.item_type,
     data.year,

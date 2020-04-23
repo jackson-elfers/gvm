@@ -26,7 +26,6 @@ async function s3Upload(data) {
 }
 
 async function upload(data) {
-  //const response = await files({ parent_id: data._id });
   data.sold = data.sold === 0 ? false : true;
   // create inventory entry
   const response = await actions.inventory.create(data);
@@ -45,7 +44,7 @@ async function migrate() {
   await db.actions.models();
   console.log("database: connected");
   const response = await axios.get("https://www.giocars.com/inventory/search/all/all/all/all/0");
-  for (var i = 0; i < 1; ++i) {
+  for (var i = 0; i < response.data.body.length; ++i) {
     console.log(`${i}`);
     await upload(response.data.body[i]);
   }

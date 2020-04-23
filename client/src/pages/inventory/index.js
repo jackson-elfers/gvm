@@ -33,6 +33,11 @@ function Slides(props) {
 
 function SelectOptions(props) {
   var temp = [];
+  temp.push(
+    <option key={`null`} value={`null`}>
+      {`All`}
+    </option>
+  );
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
       <option key={props.data[i].selection} value={props.data[i].selection}>
@@ -53,7 +58,7 @@ class Main extends React.Component {
       year_select: [],
       make_select: [],
       model_select: [],
-      item_type: "null",
+      item_type: "Cars",
       year: "null",
       make: "null",
       model: "null",
@@ -83,7 +88,14 @@ class Main extends React.Component {
   async changeSelect() {
     const form = document.getElementById("formOne");
     this.setState(
-      { item_type: form.item_type.value, year: form.year.value, make: form.make.value, model: form.model.value },
+      {
+        data: [],
+        index: 0,
+        item_type: form.item_type.value,
+        year: form.year.value,
+        make: form.make.value,
+        model: form.model.value
+      },
       async () => {
         await this.loadInventory();
       }
@@ -110,6 +122,14 @@ class Main extends React.Component {
     this.setState({ item_type_select: item_type, year_select: year, make_select: make, model_select: model });
   }
 
+  setSelect() {
+    const form = document.getElementById("formOne");
+    form.item_type.value = this.state.item_type;
+    form.year.value = this.state.year;
+    form.make.value = this.state.make;
+    form.model.value = this.state.model;
+  }
+
   async nextIndex() {
     this.setState({ index: ++this.state.index }, async () => {
       await this.loadInventory();
@@ -119,7 +139,9 @@ class Main extends React.Component {
   async componentDidMount() {
     await this.getSelect();
     await this.loadInventory();
-    this.setState({ loading: false });
+    this.setState({ loading: false }, () => {
+      this.setSelect();
+    });
   }
 
   render() {
