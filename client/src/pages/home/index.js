@@ -5,12 +5,12 @@ class SlideShow extends React.Component {
     super(props);
     this.state = {
       urls: [
-        "/images/slideshow/01.jpg",
-        "/images/slideshow/02.jpg",
-        "/images/slideshow/03.jpg",
-        "/images/slideshow/04.jpg",
-        "/images/slideshow/05.jpg",
-        "/images/slideshow/06.jpg"
+        "images/slideshow/01.jpg",
+        "images/slideshow/02.jpg",
+        "images/slideshow/03.jpg",
+        "images/slideshow/04.jpg",
+        "images/slideshow/05.jpg",
+        "images/slideshow/06.jpg"
       ],
       index: 0
     };
