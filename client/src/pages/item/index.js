@@ -1,5 +1,6 @@
 import React from "react";
 import { Notice, Viewer } from "../../globals/components";
+import { Link } from "react-router-dom";
 import connect from "../../connect.js";
 import axios from "axios";
 
@@ -38,11 +39,23 @@ class Main extends React.Component {
     if (this.state.loading) {
       return <div style={{ display: "none" }}></div>;
     }
+    const options = (
+      <div>
+        <Link to={`/admin/inventory/update/${this.state.data._id}`}>
+          <button>Update Item</button>
+        </Link>
+        <Link to={`/admin/inventory/delete/${this.state.data._id}`}>
+          <button>Delete Item</button>
+        </Link>
+      </div>
+    );
+
     return (
       <div>
         <h1>Item</h1>
         <Notice />
         <hr />
+        {this.props.globals.user !== null ? options : <div style={{ display: "none" }}></div>}
         <h3>{`${this.state.data.sold ? "SOLD" : ""} ${this.state.data.year === 0 ? "" : this.state.data.year} ${
           this.state.data.make
         } ${this.state.data.model} $${this.state.data.price}`}</h3>
