@@ -1,3 +1,4 @@
+import "react-app-polyfill/stable";
 import React from "react";
 import ReactDOM from "react-dom";
 import { Route, Link, BrowserRouter as Router, Switch } from "react-router-dom";
