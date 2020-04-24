@@ -37,9 +37,6 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <Link to="/">
-          <h2>Giordano's Vintage Motors</h2>
-        </Link>
         <div style={{ height: "50px" }}>
           <Nav user={this.props.globals.user} />
         </div>

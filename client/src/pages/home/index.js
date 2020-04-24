@@ -14,6 +14,7 @@ class SlideShow extends React.Component {
       ],
       index: 0
     };
+    this.inteval = null;
   }
 
   async nextSlide() {
@@ -25,7 +26,11 @@ class SlideShow extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.nextSlide.bind(this), 2000);
+    this.interval = setInterval(this.nextSlide.bind(this), 2000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   render() {

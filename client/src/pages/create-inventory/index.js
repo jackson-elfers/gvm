@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import check from "check-types";
-import { Notice } from "../../globals/components";
+import { Notice, LoggedIn } from "../../globals/components";
 import connect from "../../connect.js";
 
 class Main extends React.Component {
@@ -44,6 +44,7 @@ class Main extends React.Component {
   render() {
     return (
       <div>
+        <LoggedIn />
         <h1>Create Inventory</h1>
         <Notice />
         <hr />
