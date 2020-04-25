@@ -9,7 +9,7 @@ module.exports = function(app) {
   app.post("/user/login", utils.asyn.route(user.login));
   app.get("/user/logout", utils.asyn.route(user.logout));
   app.get("/user/info", utils.asyn.route(utils.jwt.secured), utils.asyn.route(user.info));
-  app.post("/user/register", utils.recaptcha.verify, utils.asyn.route(user.register));
+  //app.post("/user/register", utils.recaptcha.verify, utils.asyn.route(user.register));
   app.put("/user/update/username", utils.asyn.route(utils.jwt.secured), utils.asyn.route(user.updateUsername));
   app.put("/user/update/password", utils.asyn.route(utils.jwt.secured), utils.asyn.route(user.updatePassword));
   app.delete("/user/delete", utils.asyn.route(utils.jwt.secured), utils.asyn.route(user.remove));
