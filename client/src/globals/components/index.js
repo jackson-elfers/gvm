@@ -13,3 +13,5 @@ export { default as Viewer } from "./viewer";
 export { default as Header } from "./header";
 
 export { default as Footer } from "./footer";
+
+export { default as Scroll } from "./scroll";
