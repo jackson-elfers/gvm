@@ -1,4 +1,5 @@
 import React from "react";
+import ReactResizeDetector from "react-resize-detector";
 
 class SlideShow extends React.Component {
   constructor(props) {
@@ -26,16 +27,22 @@ class SlideShow extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(this.nextSlide.bind(this), 2000);
+    this.interval = setInterval(this.nextSlide.bind(this), 5000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  resize(width) {
+    const element = document.getElementById("slideshow");
+    element.style.height = width * 0.45 + "px";
+  }
+
   render() {
     return (
-      <div style={{ height: "350px" }}>
+      <div id="slideshow" style={{ height: "410px" }}>
+        <ReactResizeDetector handleWidth onResize={this.resize.bind(this)} />
         <img src={`${process.env.REACT_APP_API}/${this.state.urls[this.state.index]}`} />
       </div>
     );
@@ -60,7 +67,11 @@ class Main extends React.Component {
           <hr />
           <h3>Talk to Us</h3>
         </a>
-        <img alt="man standing by wheel of car" src={`${process.env.REACT_APP_API}/images/quote.jpg`} />
+        <img
+          style={{ width: "100%" }}
+          alt="man standing by wheel of car"
+          src={`${process.env.REACT_APP_API}/images/quote.jpg`}
+        />
         <p>
           “Jim and his team at GVM helped make the process comfortable, safe and low stress. The car was described
           clearly, including known defects, great photos and I was able to communicate at length with Jim by email and
@@ -87,10 +98,10 @@ class Main extends React.Component {
         <hr />
         <div style={{ "text-align": "center" }}>
           <p>
-            <b>Showroom Temporarily Closed to the general public due to COVID-19</b>
-          </p>
-          <p>
-            <b>For inquiries, please contact us at info@giocars.com or text/call 425.985.4259</b>
+            <b>
+              Showroom Temporarily Closed to the general public due to COVID-19. For inquiries, please contact us at
+              info@giocars.com or text/call 425.985.4259
+            </b>
           </p>
         </div>
         <a

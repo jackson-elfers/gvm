@@ -1,1 +1,1 @@
-import css from "./light.css";
+import css from "./index.css";

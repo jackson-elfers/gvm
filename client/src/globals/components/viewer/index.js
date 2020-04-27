@@ -37,7 +37,7 @@ const Media = connect(
       );
 
       return (
-        <div>
+        <div style={{ "box-shadow": "none" }}>
           {this.props.globals.user !== null ? options : <div style={{ display: "none" }}></div>}
           <img
             style={{ width: "100%" }}
@@ -53,7 +53,7 @@ function Viewer(props) {
   var temp = [];
   for (var i = 0; i < props.data.length; ++i) {
     temp.push(
-      <div key={props.data[i].storage_name}>
+      <div style={{ "box-shadow": "none" }} key={props.data[i].storage_name}>
         <Media owner_id={props.owner_id} data={props.data[i]} handlers={props.handlers} />
       </div>
     );
@@ -91,12 +91,8 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <div style={{ height: "600px", overflow: "scroll" }}>
-            <Viewer owner_id={this.props.owner_id} data={this.state.data} handlers={[this.updateMedia.bind(this)]} />
-          </div>
-        </div>
+      <div style={{ height: "600px", overflow: "scroll" }}>
+        <Viewer owner_id={this.props.owner_id} data={this.state.data} handlers={[this.updateMedia.bind(this)]} />
       </div>
     );
   }
