@@ -44,6 +44,9 @@ class Main extends React.Component {
         <Link to={`/admin/inventory/update/${this.state.data._id}`}>
           <button>Update Item</button>
         </Link>
+        <Link to={`/admin/inventory/upload/${this.state.data._id}`}>
+          <button>Upload Images</button>
+        </Link>
         <Link to={`/admin/inventory/delete/${this.state.data._id}`}>
           <button>Delete Item</button>
         </Link>

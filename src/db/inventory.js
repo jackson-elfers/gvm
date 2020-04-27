@@ -117,7 +117,7 @@ module.exports.readItemType = async function() {
   const query = `
 select distinct item_type as selection
 from inventory
-order by item_type desc;
+order by item_type asc;
 `;
   return await db.query(query);
 };
@@ -135,7 +135,7 @@ module.exports.readMake = async function() {
   const query = `
 select distinct make as selection
 from inventory
-order by make desc;
+order by make asc;
 `;
   return await db.query(query);
 };
@@ -144,7 +144,7 @@ module.exports.readModel = async function() {
   const query = `
 select distinct model as selection
 from inventory
-order by model desc;
+order by model asc;
 `;
   return await db.query(query);
 };

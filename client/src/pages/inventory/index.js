@@ -39,6 +39,9 @@ function SelectOptions(props) {
     </option>
   );
   for (var i = 0; i < props.data.length; ++i) {
+    if (props.data[i].selection === "") {
+      continue;
+    }
     temp.push(
       <option key={props.data[i].selection} value={props.data[i].selection}>
         {selectModify(props.data[i].selection)}

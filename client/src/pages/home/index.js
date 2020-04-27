@@ -86,9 +86,12 @@ class Main extends React.Component {
         <h3>Visit Us</h3>
         <hr />
         <div style={{ "text-align": "center" }}>
-          <p>Tuesday-Saturday: 10:00am-5:00pm</p>
-          <p>Sunday: Closed</p>
-          <p>Other times by appointment</p>
+          <p>
+            <b>Showroom Temporarily Closed to the general public due to COVID-19</b>
+          </p>
+          <p>
+            <b>For inquiries, please contact us at info@giocars.com or text/call 425.985.4259</b>
+          </p>
         </div>
         <a
           target="_blank"
@@ -106,3 +109,7 @@ class Main extends React.Component {
   }
 }
 export default Main;
+
+//<p>Tuesday-Saturday: 10:00am-5:00pm</p>
+//<p>Sunday: Closed</p>
+//<p>Other times by appointment</p>

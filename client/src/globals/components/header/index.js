@@ -5,6 +5,14 @@ class Main extends React.Component {
   render() {
     return (
       <div>
+        <div style={{ "text-align": "center" }}>
+          <p>
+            <b>Showroom Temporarily Closed to the general public due to COVID-19</b>
+          </p>
+          <p>
+            <b>For inquiries, please contact us at info@giocars.com or text/call 425.985.4259</b>
+          </p>
+        </div>
         <Link to="/">
           <img src={`${process.env.REACT_APP_API}/images/logo.jpg`} />
         </Link>
