@@ -85,6 +85,7 @@ class Main extends React.Component {
         <a target="_blank" href="https://forzamotorsport.net/en-us/news/hma_7_5_12/">
           <b>forzamotorsport.net - Heavy Metal Affliction -- Giordano's Vintage Motors</b>
         </a>
+        <img alt="classic cars in background" src={`${process.env.REACT_APP_API}/images/background.jpg`} />
         <a href="/inventory">
           <hr />
           <h3>See Our Inventory</h3>

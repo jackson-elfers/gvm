@@ -39,33 +39,31 @@ const routing = (
   <Provider store={store}>
     <Router>
       <Scroll>
-        <div>
-          <Header />
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/account" component={Account} />
-            <Route exact path="/account/login" component={Login} />
-            <Route exact path="/account/logout" component={Logout} />
-            <Route exact path="/account/register" component={Register} />
-            <Route exact path="/account/update/username" component={UpdateUsername} />
-            <Route exact path="/account/update/password" component={UpdatePassword} />
-            <Route exact path="/account/delete" component={Delete} />
-            <Route exact path="/inventory" component={Inventory} />
-            <Route exact path="/sell" component={Sell} />
-            <Route exact path="/wanted" component={Wanted} />
-            <Route exact path="/locating" component={Locating} />
-            <Route exact path="/shipping" component={Shipping} />
-            <Route exact path="/contact" component={Contact} />
-            <Route exact path="/item/:url_title" component={Item} />
-            <Route exact path="/admin" component={Admin} />
-            <Route exact path="/admin/inventory/create" component={CreateInventory} />
-            <Route exact path="/admin/inventory/update/:_id" component={UpdateInventory} />
-            <Route exact path="/admin/inventory/delete/:_id" component={DeleteInventory} />
-            <Route exact path="/admin/inventory/upload/:_id" component={UploadInventory} />
-            <Route component={NotFound} />
-          </Switch>
-          <Footer />
-        </div>
+        <Header />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/account" component={Account} />
+          <Route exact path="/account/login" component={Login} />
+          <Route exact path="/account/logout" component={Logout} />
+          <Route exact path="/account/register" component={Register} />
+          <Route exact path="/account/update/username" component={UpdateUsername} />
+          <Route exact path="/account/update/password" component={UpdatePassword} />
+          <Route exact path="/account/delete" component={Delete} />
+          <Route exact path="/inventory" component={Inventory} />
+          <Route exact path="/sell" component={Sell} />
+          <Route exact path="/wanted" component={Wanted} />
+          <Route exact path="/locating" component={Locating} />
+          <Route exact path="/shipping" component={Shipping} />
+          <Route exact path="/contact" component={Contact} />
+          <Route exact path="/item/:url_title" component={Item} />
+          <Route exact path="/admin" component={Admin} />
+          <Route exact path="/admin/inventory/create" component={CreateInventory} />
+          <Route exact path="/admin/inventory/update/:_id" component={UpdateInventory} />
+          <Route exact path="/admin/inventory/delete/:_id" component={DeleteInventory} />
+          <Route exact path="/admin/inventory/upload/:_id" component={UploadInventory} />
+          <Route component={NotFound} />
+        </Switch>
+        <Footer />
       </Scroll>
     </Router>
   </Provider>
