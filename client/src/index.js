@@ -30,7 +30,7 @@ import {
   UploadInventory,
   NotFound
 } from "./pages";
-import { Header, Footer, Scroll } from "./globals/components";
+import { Header, Footer, Scroll, SetUser } from "./globals/components";
 import * as serviceWorker from "./serviceWorker";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -38,6 +38,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk));
 const routing = (
   <Provider store={store}>
     <Router>
+      <SetUser />
       <Scroll>
         <Header />
         <Switch>

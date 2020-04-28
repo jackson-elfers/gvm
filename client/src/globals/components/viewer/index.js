@@ -5,8 +5,16 @@ import axios from "axios";
 
 const Media = connect(
   class extends React.Component {
-    async updateThumbnail() {
+    clickMessage(data) {
+      data.element.innerHTML = data.message;
+      setTimeout(() => {
+        data.element.innerHTML = data.reset;
+      }, 1000);
+    }
+
+    async updateThumbnail(event) {
       try {
+        const element = event.target;
         const response = await axios.put(`${process.env.REACT_APP_API}/inventory/update/thumbnail`, {
           _id: this.props.owner_id,
           thumbnail: this.props.data.storage_name
@@ -14,6 +22,7 @@ const Media = connect(
         if (response.data.error) {
           throw new Error(response.data.error.detail);
         }
+        this.clickMessage({ element: element, message: "Updated!", reset: "Update Thumbnail" });
       } catch (e) {
         this.props.actions.notice.message(e.message);
       }
@@ -31,7 +40,13 @@ const Media = connect(
     render() {
       const options = (
         <div>
-          <button onClick={this.updateThumbnail.bind(this)}>Update Thumbnail</button>
+          <button
+            onClick={function(e) {
+              this.updateThumbnail(e);
+            }.bind(this)}
+          >
+            Update Thumbnail
+          </button>
           <button onClick={this.removeMedia.bind(this)}>DELETE</button>
         </div>
       );

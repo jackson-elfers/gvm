@@ -8,7 +8,7 @@ class Main extends React.Component {
         <hr />
         <h3>Selling Your Car</h3>
         <p>
-          can help you sell your fine automobile using my extensive network of buyers around the world. From years of
+          I can help you sell your fine automobile using my extensive network of buyers around the world. From years of
           working with car enthusiasts, I have put together a database of qualified buyers who may be interested in
           purchasing your car. These are cash buyers. I have a policy and track record of assisting car enthusiasts in
           an truthful, intelligent and open manner. I have been collecting sports and collectible automobiles for over
