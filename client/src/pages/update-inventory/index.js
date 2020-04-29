@@ -35,7 +35,7 @@ class Main extends React.Component {
       if (response.data.error) {
         throw new Error(response.data.error.detail);
       }
-      this.props.history.push(`/admin/inventory/upload/${response.data.data._id}`);
+      this.props.history.push(`/admin/inventory/upload/${this.props.match.params._id}`);
     } catch (e) {
       this.props.actions.notice.message(e.message);
     }

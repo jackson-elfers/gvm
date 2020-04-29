@@ -125,8 +125,8 @@ module.exports.readSingleById = async function(req, res) {
 module.exports.update = async function(req, res) {
   try {
     check.assert(check.object(req.body), "expected object attached to req.body");
-    await actions.inventory.update(req.body);
-    res.json(utils.api.send(null));
+    const response = await actions.inventory.update(req.body);
+    res.json(utils.api.send({ url_title: response.info.url_title }));
   } catch (e) {
     console.log(e);
     res.json(

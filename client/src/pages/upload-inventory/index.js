@@ -101,6 +101,13 @@ class Main extends React.Component {
           <input type="file" name="uploads" multiple />
           <input type="submit" value="upload" />
         </form>
+        <button
+          onClick={() => {
+            this.props.history.push(`/item/${this.state.data.url_title}`);
+          }}
+        >
+          Skip
+        </button>
       </div>
     );
   }
