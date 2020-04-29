@@ -28,9 +28,13 @@ function clearDir(data) {
   });
 }
 
-async function clear() {
-  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/input/`)) });
-  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/output/`)) });
+async function clear(data) {
+  check.assert(check.object(data), "expected object as first argument");
+  check.assert(check.string(data.dir), "dir must be of type string");
+  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/input/${data.dir}`)) });
+  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/output/${data.dir}`)) });
+  await pfs.rmdir(path.join(__dirname, `./images/input/${data.dir}`));
+  await pfs.rmdir(path.join(__dirname, `./images/output/${data.dir}`));
 }
 
 async function compress(data) {
@@ -66,6 +70,7 @@ module.exports = async function(data) {
   if (!mime.extension(data.content_type)) {
     throw new Error("content_type is invalid");
   }
+  const directory = uuid();
   const filename = `${uuid()}.${mime.extension(data.content_type)}`;
   try {
     await pfs.access(path.join(__dirname, "./images"));
@@ -74,12 +79,12 @@ module.exports = async function(data) {
     await pfs.mkdir(path.join(__dirname, "./images/input"));
     await pfs.mkdir(path.join(__dirname, "./images/output"));
   }
-  await clear();
-  await promisePipe(data.input, fs.createWriteStream(path.join(__dirname, `./images/input/${filename}`)));
+  await pfs.mkdir(path.join(__dirname, `./images/input/${directory}`));
+  await promisePipe(data.input, fs.createWriteStream(path.join(__dirname, `./images/input/${directory}/${filename}`)));
   const file = await compress({
-    src: path.join(__dirname, `./images/input`),
-    dest: path.join(__dirname, `./images/output`)
+    src: path.join(__dirname, `./images/input/${directory}`),
+    dest: path.join(__dirname, `./images/output/${directory}`)
   });
-  await clear();
+  await clear({ dir: directory });
   return file.data;
 };
