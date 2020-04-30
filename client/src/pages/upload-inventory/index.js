@@ -43,6 +43,20 @@ class Main extends React.Component {
     }
   }
 
+  async nextUpload(e) {
+    const form = document.getElementById("formOne");
+    if (this.state.index === form.uploads.files.length - 1) {
+      this.setState({ index: 0 });
+      this.setState({ uploading: false });
+      console.log("complete!");
+      this.props.history.push(`/item/${this.state.data.url_title}`);
+      return;
+    }
+    this.setState({ index: ++this.state.index }, async () => {
+      await this.upload(e);
+    });
+  }
+
   async upload(e) {
     e.preventDefault();
     const form = document.getElementById("formOne");
@@ -64,18 +78,9 @@ class Main extends React.Component {
       if (this.state.index === 0) {
         await this.updateThumbnail({ thumbnail: response.data.data.storage_name });
       }
-      if (this.state.index === form.uploads.files.length - 1) {
-        this.setState({ index: 0 });
-        this.setState({ uploading: false });
-        console.log("complete!");
-        this.props.history.push(`/item/${this.state.data.url_title}`);
-        return;
-      }
-      this.setState({ index: ++this.state.index }, async () => {
-        await this.upload(e);
-      });
+      await this.nextUpload(e);
     } catch (e) {
-      this.setState({ uploading: false });
+      await this.nextUpload(e);
       this.props.actions.notice.message(e.message);
     }
   }

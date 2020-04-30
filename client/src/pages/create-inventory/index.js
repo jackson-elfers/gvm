@@ -27,10 +27,10 @@ class Main extends React.Component {
       options: form.options.value,
       item_condition: form.condition.value
     };
-    check.assert(check.number(data.year), "year must be of type number");
-    check.assert(check.number(data.mileage), "mileage must be of type number");
-    check.assert(check.number(data.price), "price must be of type number");
     try {
+      check.assert(check.number(data.year), "year must be of type number");
+      check.assert(check.number(data.mileage), "mileage must be of type number");
+      check.assert(check.number(data.price), "price must be of type number");
       const response = await axios.post(`${process.env.REACT_APP_API}/inventory/create`, data);
       if (response.data.error) {
         throw new Error(response.data.error.detail);
