@@ -51,8 +51,20 @@ module.exports = class {
     this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
     this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     const response = await this.method.db.actions.files.create(data);
-    const compressed = await this.method.utils.imagemin({ input: data.body, content_type: response.info.content_type });
-    await this.s3Upload({ Key: response.info.storage_name, body: compressed, ContentType: response.info.content_type });
+    try {
+      const compressed = await this.method.utils.imagemin({
+        input: data.body,
+        content_type: response.info.content_type
+      });
+      await this.s3Upload({
+        Key: response.info.storage_name,
+        body: compressed,
+        ContentType: response.info.content_type
+      });
+    } catch (e) {
+      await this.method.db.actions.files.remove(response.info);
+      throw e;
+    }
     return response;
   }
 

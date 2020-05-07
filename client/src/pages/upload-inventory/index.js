@@ -79,9 +79,9 @@ class Main extends React.Component {
         await this.updateThumbnail({ thumbnail: response.data.data.storage_name });
       }
       await this.nextUpload(e);
-    } catch (e) {
+    } catch (error) {
       await this.nextUpload(e);
-      this.props.actions.notice.message(e.message);
+      this.props.actions.notice.message(error.message);
     }
   }
 

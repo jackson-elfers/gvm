@@ -16,25 +16,45 @@ function clearDir(data) {
       if (error) {
         reject(error);
       }
-      for (const file of files) {
-        fs.unlink(path.join(data.dirpath, file), error => {
-          if (error) {
-            reject(error);
-          }
-        });
+      try {
+        for (const file of files) {
+          fs.unlink(path.join(data.dirpath, file), error => {
+            if (error) {
+              reject(error);
+            }
+          });
+        }
+      } catch (e) {
+        reject(e);
       }
       resolve();
     });
   });
 }
 
+async function removeFiles(data) {
+  try {
+    await clearDir({ dirpath: path.join(path.join(__dirname, `./images/input/${data.dir}`)) });
+  } catch (e) {}
+  try {
+    await clearDir({ dirpath: path.join(path.join(__dirname, `./images/output/${data.dir}`)) });
+  } catch (e) {}
+}
+
+async function removeDir(data) {
+  try {
+    await pfs.rmdir(path.join(__dirname, `./images/input/${data.dir}`));
+  } catch (e) {}
+  try {
+    await pfs.rmdir(path.join(__dirname, `./images/output/${data.dir}`));
+  } catch (e) {}
+}
+
 async function clear(data) {
   check.assert(check.object(data), "expected object as first argument");
   check.assert(check.string(data.dir), "dir must be of type string");
-  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/input/${data.dir}`)) });
-  await clearDir({ dirpath: path.join(path.join(__dirname, `./images/output/${data.dir}`)) });
-  await pfs.rmdir(path.join(__dirname, `./images/input/${data.dir}`));
-  await pfs.rmdir(path.join(__dirname, `./images/output/${data.dir}`));
+  await removeFiles(data);
+  await removeDir(data);
 }
 
 async function compress(data) {
@@ -45,7 +65,11 @@ async function compress(data) {
     destination: data.dest,
     plugins: [imageminMozjpeg(), imageminPngquant({ quality: [0.6, 0.8] })]
   };
-  return (await imagemin([path.join(data.src, "*.{jpeg, jpg, png}")], params))[0];
+  const compressed = await imagemin([path.join(data.src, "*.{jpeg, jpg, png}")], params);
+  if (compressed.length === 0) {
+    throw new Error("failed to compress image file");
+  }
+  return compressed[0];
 }
 
 function promisePipe(input, output) {
@@ -81,10 +105,15 @@ module.exports = async function(data) {
   }
   await pfs.mkdir(path.join(__dirname, `./images/input/${directory}`));
   await promisePipe(data.input, fs.createWriteStream(path.join(__dirname, `./images/input/${directory}/${filename}`)));
-  const file = await compress({
-    src: path.join(__dirname, `./images/input/${directory}`),
-    dest: path.join(__dirname, `./images/output/${directory}`)
-  });
-  await clear({ dir: directory });
-  return file.data;
+  try {
+    const file = await compress({
+      src: path.join(__dirname, `./images/input/${directory}`),
+      dest: path.join(__dirname, `./images/output/${directory}`)
+    });
+    await clear({ dir: directory });
+    return file.data;
+  } catch (e) {
+    await clear({ dir: directory });
+    throw e;
+  }
 };
