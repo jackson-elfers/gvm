@@ -47,7 +47,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.643.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bcrypt": "^3.0.7",
     "body-parser": "^1.19.0",
     "check-types": "^11.1.2",
