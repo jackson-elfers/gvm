@@ -49,16 +49,16 @@ module.exports = class {
   async create(data) {
     this.method.check.assert(this.method.check.object(data), "expected object as first argument");
     this.method.check.assert(this.method.check.string(data.file_name), "file_name must be of type string");
-    this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
+    //this.method.check.assert(this.method.check.object(data.body), "body must be of type object");
     const response = await this.method.db.actions.files.create(data);
     try {
-      const compressed = await this.method.utils.imagemin({
-        input: data.body,
-        content_type: response.info.content_type
-      });
+      //const compressed = await this.method.utils.imagemin({
+      //input: data.body,
+      //content_type: response.info.content_type
+      //});
       await this.s3Upload({
         Key: response.info.storage_name,
-        body: compressed,
+        body: data.body,
         ContentType: response.info.content_type
       });
     } catch (e) {
